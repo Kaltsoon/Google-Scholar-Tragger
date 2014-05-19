@@ -42545,3 +42545,722 @@ Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:27:39 +03
 
 
 Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:27:39 +0300
+
+
+Started GET "/search/ecckxs" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by ApiController#user_search as HTML
+  Parameters: {"token"=>"ecckxs"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."token" = 'ecckxs' LIMIT 1
+Redirected to http://localhost:3000/login
+Completed 302 Found in 35ms (ActiveRecord: 0.6ms)
+
+
+Started GET "/login" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+Processing by UsersController#admin_login as HTML
+Redirected to http://localhost:3000/scholar_queries
+Completed 302 Found in 1ms (ActiveRecord: 0.0ms)
+
+
+Started GET "/scholar_queries" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+Processing by ScholarQueriesController#index as HTML
+  [1m[36mScholarQuery Load (0.2ms)[0m  [1mSELECT "scholar_queries".* FROM "scholar_queries"[0m
+  [1m[35m (3.0ms)[0m  SELECT COUNT(*) FROM "query_clicks" WHERE "query_clicks"."scholar_query_id" = ?  [["scholar_query_id", 76]]
+  [1m[36mUser Load (0.4ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 10]]
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "query_clicks" WHERE "query_clicks"."scholar_query_id" = ?  [["scholar_query_id", 77]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 10]]
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "query_clicks" WHERE "query_clicks"."scholar_query_id" = ?  [["scholar_query_id", 78]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1[0m  [["id", 10]]
+  Rendered scholar_queries/index.html.erb within layouts/application (75.0ms)
+Completed 200 OK in 148ms (Views: 135.4ms | ActiveRecord: 4.6ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/assets/pagination.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/assets/scholar_queries.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/assets/query_clicks.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/assets/theme.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:46:55 +0300
+
+
+Started GET "/users/10" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+Processing by UsersController#show as HTML
+  Parameters: {"id"=>"10"}
+  [1m[35mUser Load (0.1ms)[0m  SELECT "users".* FROM "users" WHERE "users"."id" = ? LIMIT 1  [["id", "10"]]
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "scholar_queries" WHERE "scholar_queries"."user_id" = ?[0m  [["user_id", 10]]
+  [1m[35mScholarQuery Load (0.1ms)[0m  SELECT "scholar_queries".* FROM "scholar_queries" WHERE "scholar_queries"."user_id" = ?  [["user_id", 10]]
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "query_clicks" WHERE "query_clicks"."scholar_query_id" = ?[0m  [["scholar_query_id", 76]]
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "query_clicks" WHERE "query_clicks"."scholar_query_id" = ?  [["scholar_query_id", 77]]
+  [1m[36m (0.1ms)[0m  [1mSELECT COUNT(*) FROM "query_clicks" WHERE "query_clicks"."scholar_query_id" = ?[0m  [["scholar_query_id", 78]]
+  Rendered users/show.html.erb within layouts/application (8.5ms)
+Completed 200 OK in 16ms (Views: 13.8ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/assets/pagination.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/assets/scholar_queries.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/assets/query_clicks.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/assets/theme.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:46:59 +0300
+
+
+Started GET "/search/rqkkpy" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+Processing by ApiController#user_search as HTML
+  Parameters: {"token"=>"rqkkpy"}
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."token" = 'rqkkpy' LIMIT 1
+  Rendered api/index.html.erb within layouts/application (6.7ms)
+Completed 200 OK in 16ms (Views: 13.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/scholar_queries.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/query_clicks.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/pagination.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/theme.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/pagination.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started GET "/assets/app.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:07 +0300
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:47:11 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"", "start"=>"0"}
+Completed 200 OK in 1317ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:47:12 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"big data", "start"=>"0"}
+Completed 200 OK in 995ms (Views: 1.1ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/scholar_queries" for 127.0.0.1 at 2014-05-19 08:47:13 +0300
+Processing by ScholarQueriesController#create as */*
+  Parameters: {"query_text"=>"big data"}
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "scholar_queries" ("created_at", "query_text", "updated_at", "user_id") VALUES (?, ?, ?, ?)  [["created_at", Mon, 19 May 2014 05:47:13 UTC +00:00], ["query_text", "big data"], ["updated_at", Mon, 19 May 2014 05:47:13 UTC +00:00], ["user_id", 10]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 12ms (Views: 0.3ms | ActiveRecord: 1.7ms)
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:47:16 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"big data", "start"=>"10"}
+Completed 200 OK in 500ms (Views: 1.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/search/rqkkpy" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+Processing by ApiController#user_search as HTML
+  Parameters: {"token"=>"rqkkpy"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."token" = 'rqkkpy' LIMIT 1
+  Rendered api/index.html.erb within layouts/application (5.8ms)
+Completed 200 OK in 13ms (Views: 11.2ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/pagination.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/scholar_queries.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/query_clicks.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/theme.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/app.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/assets/pagination.js?body=1" for 127.0.0.1 at 2014-05-19 08:47:57 +0300
+
+
+Started GET "/search/rqkkpy" for 127.0.0.1 at 2014-05-19 08:48:03 +0300
+Processing by ApiController#user_search as HTML
+  Parameters: {"token"=>"rqkkpy"}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT "users".* FROM "users" WHERE "users"."token" = 'rqkkpy' LIMIT 1[0m
+  Rendered api/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 9ms (Views: 6.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/pagination.css?body=1" for 127.0.0.1 at 2014-05-19 08:48:03 +0300
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-05-19 08:48:03 +0300
+
+
+Started GET "/assets/query_clicks.css?body=1" for 127.0.0.1 at 2014-05-19 08:48:03 +0300
+
+
+Started GET "/assets/scholar_queries.css?body=1" for 127.0.0.1 at 2014-05-19 08:48:03 +0300
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2014-05-19 08:48:03 +0300
+
+
+Started GET "/assets/theme.css?body=1" for 127.0.0.1 at 2014-05-19 08:48:04 +0300
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-05-19 08:48:04 +0300
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-05-19 08:48:04 +0300
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-05-19 08:48:04 +0300
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-05-19 08:48:04 +0300
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:48:04 +0300
+
+
+Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:48:04 +0300
+
+
+Started GET "/assets/pagination.js?body=1" for 127.0.0.1 at 2014-05-19 08:48:04 +0300
+
+
+Started GET "/assets/app.js?body=1" for 127.0.0.1 at 2014-05-19 08:48:04 +0300
+
+
+Started GET "/search/rqkkpy" for 127.0.0.1 at 2014-05-19 08:50:24 +0300
+Processing by ApiController#user_search as HTML
+  Parameters: {"token"=>"rqkkpy"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."token" = 'rqkkpy' LIMIT 1
+  Rendered api/index.html.erb within layouts/application (7.0ms)
+Completed 200 OK in 13ms (Views: 12.0ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/pagination.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/scholar_queries.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/theme.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/query_clicks.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/pagination.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started GET "/assets/app.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:25 +0300
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:50:29 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"", "start"=>"0"}
+Completed 200 OK in 919ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:50:29 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"big data", "start"=>"0"}
+Completed 200 OK in 1067ms (Views: 1.1ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/scholar_queries" for 127.0.0.1 at 2014-05-19 08:50:31 +0300
+Processing by ScholarQueriesController#create as */*
+  Parameters: {"query_text"=>"big data"}
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "scholar_queries" ("created_at", "query_text", "updated_at", "user_id") VALUES (?, ?, ?, ?)  [["created_at", Mon, 19 May 2014 05:50:31 UTC +00:00], ["query_text", "big data"], ["updated_at", Mon, 19 May 2014 05:50:31 UTC +00:00], ["user_id", 10]]
+  [1m[36m (0.6ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 4ms (Views: 0.2ms | ActiveRecord: 1.2ms)
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:50:33 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"big data", "start"=>"10"}
+Completed 200 OK in 1011ms (Views: 1.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/search/rqkkpy" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+Processing by ApiController#user_search as HTML
+  Parameters: {"token"=>"rqkkpy"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."token" = 'rqkkpy' LIMIT 1
+  Rendered api/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 10ms (Views: 7.9ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/pagination.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/theme.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/query_clicks.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/scholar_queries.css?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/pagination.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started GET "/assets/app.js?body=1" for 127.0.0.1 at 2014-05-19 08:50:41 +0300
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:50:45 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"", "start"=>"0"}
+Completed 200 OK in 950ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:50:46 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"data", "start"=>"0"}
+Completed 200 OK in 382ms (Views: 0.8ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/scholar_queries" for 127.0.0.1 at 2014-05-19 08:50:46 +0300
+Processing by ScholarQueriesController#create as */*
+  Parameters: {"query_text"=>"data"}
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "scholar_queries" ("created_at", "query_text", "updated_at", "user_id") VALUES (?, ?, ?, ?)  [["created_at", Mon, 19 May 2014 05:50:46 UTC +00:00], ["query_text", "data"], ["updated_at", Mon, 19 May 2014 05:50:46 UTC +00:00], ["user_id", 10]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 5ms (Views: 0.2ms | ActiveRecord: 1.3ms)
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:50:50 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"data", "start"=>"10"}
+Completed 200 OK in 994ms (Views: 1.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/search/rqkkpy" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+Processing by ApiController#user_search as HTML
+  Parameters: {"token"=>"rqkkpy"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."token" = 'rqkkpy' LIMIT 1
+  Rendered api/index.html.erb within layouts/application (5.8ms)
+Completed 200 OK in 12ms (Views: 10.7ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/pagination.css?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/query_clicks.css?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/scholar_queries.css?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/theme.css?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/pagination.js?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started GET "/assets/app.js?body=1" for 127.0.0.1 at 2014-05-19 08:51:18 +0300
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:51:23 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"", "start"=>"0"}
+Completed 200 OK in 988ms (Views: 0.3ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:51:24 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"java", "start"=>"0"}
+Completed 200 OK in 378ms (Views: 1.1ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/scholar_queries" for 127.0.0.1 at 2014-05-19 08:51:25 +0300
+Processing by ScholarQueriesController#create as */*
+  Parameters: {"query_text"=>"java"}
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "scholar_queries" ("created_at", "query_text", "updated_at", "user_id") VALUES (?, ?, ?, ?)  [["created_at", Mon, 19 May 2014 05:51:25 UTC +00:00], ["query_text", "java"], ["updated_at", Mon, 19 May 2014 05:51:25 UTC +00:00], ["user_id", 10]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 4ms (Views: 0.2ms | ActiveRecord: 1.1ms)
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:51:32 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"java", "start"=>"10"}
+Completed 200 OK in 1045ms (Views: 1.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/search/rqkkpy" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+Processing by ApiController#user_search as HTML
+  Parameters: {"token"=>"rqkkpy"}
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."token" = 'rqkkpy' LIMIT 1
+  Rendered api/index.html.erb within layouts/application (6.8ms)
+Completed 200 OK in 16ms (Views: 13.3ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/pagination.css?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/scholar_queries.css?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/query_clicks.css?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/theme.css?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:52:35 +0300
+
+
+Started GET "/assets/pagination.js?body=1" for 127.0.0.1 at 2014-05-19 08:52:36 +0300
+
+
+Started GET "/assets/app.js?body=1" for 127.0.0.1 at 2014-05-19 08:52:36 +0300
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:52:39 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"", "start"=>"0"}
+Completed 200 OK in 1220ms (Views: 0.4ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/scholar_queries" for 127.0.0.1 at 2014-05-19 08:52:40 +0300
+Processing by ScholarQueriesController#create as */*
+  Parameters: {"query_text"=>"scrum"}
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "scholar_queries" ("created_at", "query_text", "updated_at", "user_id") VALUES (?, ?, ?, ?)  [["created_at", Mon, 19 May 2014 05:52:40 UTC +00:00], ["query_text", "scrum"], ["updated_at", Mon, 19 May 2014 05:52:40 UTC +00:00], ["user_id", 10]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 5ms (Views: 0.2ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/search/rqkkpy" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+Processing by ApiController#user_search as HTML
+  Parameters: {"token"=>"rqkkpy"}
+  [1m[35mUser Load (0.2ms)[0m  SELECT "users".* FROM "users" WHERE "users"."token" = 'rqkkpy' LIMIT 1
+  Rendered api/index.html.erb within layouts/application (6.2ms)
+Completed 200 OK in 15ms (Views: 13.5ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/pagination.css?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/query_clicks.css?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/theme.css?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/scholar_queries.css?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/pagination.js?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started GET "/assets/app.js?body=1" for 127.0.0.1 at 2014-05-19 08:53:13 +0300
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:53:16 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"", "start"=>"0"}
+Completed 200 OK in 1010ms (Views: 0.2ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:53:17 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"scrum", "start"=>"0"}
+Completed 200 OK in 1071ms (Views: 1.3ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/scholar_queries" for 127.0.0.1 at 2014-05-19 08:53:18 +0300
+Processing by ScholarQueriesController#create as */*
+  Parameters: {"query_text"=>"scrum"}
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "scholar_queries" ("created_at", "query_text", "updated_at", "user_id") VALUES (?, ?, ?, ?)  [["created_at", Mon, 19 May 2014 05:53:18 UTC +00:00], ["query_text", "scrum"], ["updated_at", Mon, 19 May 2014 05:53:18 UTC +00:00], ["user_id", 10]]
+  [1m[36m (0.7ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 4ms (Views: 0.2ms | ActiveRecord: 1.2ms)
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:53:25 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"scrum", "start"=>"10"}
+Completed 200 OK in 1041ms (Views: 1.1ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/query" for 127.0.0.1 at 2014-05-19 08:53:31 +0300
+Processing by ApiController#scholar_query as */*
+  Parameters: {"keyword"=>"scrum", "start"=>"20"}
+Completed 200 OK in 970ms (Views: 1.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/search/rqkkpy" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+Processing by ApiController#user_search as HTML
+  Parameters: {"token"=>"rqkkpy"}
+  [1m[35mUser Load (0.3ms)[0m  SELECT "users".* FROM "users" WHERE "users"."token" = 'rqkkpy' LIMIT 1
+  Rendered api/index.html.erb within layouts/application (1.7ms)
+Completed 200 OK in 10ms (Views: 8.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/pagination.css?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/query_clicks.css?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/scholar_queries.css?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/theme.css?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/users.css?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/site.css?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/bootstrap.js?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/angular.js?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/pagination.js?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300
+
+
+Started GET "/assets/app.js?body=1" for 127.0.0.1 at 2014-05-19 08:54:21 +0300

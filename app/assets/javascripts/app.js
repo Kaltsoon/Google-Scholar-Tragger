@@ -21,11 +21,11 @@
 
 			current_keyword = $scope.keyword;
 
-			fetch_results(function(){
-				$.post("/scholar_queries", { query_text: current_keyword }).
-				done(function(data){
-						current_query_id = data.id;
-				});
+			fetch_results();
+	
+			$.post("/scholar_queries", { query_text: current_keyword }).
+			done(function(data){
+					current_query_id = data.id;
 			});
 
 		}
@@ -55,7 +55,8 @@
 			send_feedback();
 		}
 
-		var fetch_results = function(callback){
+		var fetch_results = function(){
+
 			$scope.loading = true;
 
 			$("#pagination").pagination("disable");
@@ -64,7 +65,7 @@
 
 			$.post("/query", { keyword: current_keyword, start: get_start() })
 			.done(function(data){
-				callback();
+				
 				$scope.results = data.results;
 				var location_pointer = get_page() * 10 + 1;
 				$scope.results.forEach(function(result){
