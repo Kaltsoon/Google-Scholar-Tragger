@@ -1,0 +1,25 @@
+<div class="page-header">
+  <h1>Users</h1>
+</div>
+<%= link_to 'New User', new_user_path, class: "btn btn-primary" %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Url</th>
+      <th>Queries</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.name, user %></td>
+        <td><%= user.get_url %></td>
+        <td><%= user.scholar_queries.count %></td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

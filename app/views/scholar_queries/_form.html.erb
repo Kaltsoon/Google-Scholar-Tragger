@@ -1,0 +1,25 @@
+<%= form_for(@scholar_query) do |f| %>
+  <% if @scholar_query.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@scholar_query.errors.count, "error") %> prohibited this scholar_query from being saved:</h2>
+
+      <ul>
+      <% @scholar_query.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :quering_time %><br>
+    <%= f.datetime_select :quering_time %>
+  </div>
+  <div class="field">
+    <%= f.label :query_text %><br>
+    <%= f.text_area :query_text %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

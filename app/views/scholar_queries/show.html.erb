@@ -1,0 +1,37 @@
+<div class="page-header">
+	<h1>Query "<%= @scholar_query.query_text %>" by <%= link_to @scholar_query.user.name, @scholar_query.user %> <small>at <i><%= @scholar_query.created_at %></i></small></h1>
+</div>
+<h2>Feedback</h2>
+<h4>Broadness</h4>
+<p>
+	<%= @scholar_query.broadness_str %>
+</p>
+<h4>Satisfaction</h4>
+<p>
+	<%= @scholar_query.satisfaction_str %>
+</p>
+<h2><%= pluralize(@scholar_query.query_clicks.count, "Link") %> clicked</h2>
+<ul class="media-list">
+	<% @scholar_query.query_clicks.each do |click| %>
+	  	<li class="media">
+		    <div class="media-body">
+		      	<h3 class="media-heading"><a href="<%= click.link_location %>" target="blank"><%= click.heading %></a> <small>at <i><%= click.created_at %></i></small></h3>
+		      	<p class="text-muted">
+		      		<%= click.authors %>
+		      	</p>
+		      	<p>
+					<%= click.synopsis %>
+				</p>
+				<p>
+		      		<strong>Sitations: <%= click.sitations %></strong>
+		      	</p>
+				<p>
+					<span class="label label-default"><strong>Location: <%= click.location %></strong></span>
+				</p>
+				<h4>
+		    </div>
+	  	</li>
+  	<% end %>
+</ul>
+
+

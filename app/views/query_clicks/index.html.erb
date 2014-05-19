@@ -1,0 +1,35 @@
+<h1>Listing query_clicks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Scholar query</th>
+      <th>Heading</th>
+      <th>Synopsis</th>
+      <th>Link location</th>
+      <th>Sitations</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @query_clicks.each do |query_click| %>
+      <tr>
+        <td><%= query_click.scholar_query_id %></td>
+        <td><%= query_click.heading %></td>
+        <td><%= query_click.synopsis %></td>
+        <td><%= query_click.link_location %></td>
+        <td><%= query_click.sitations %></td>
+        <td><%= link_to 'Show', query_click %></td>
+        <td><%= link_to 'Edit', edit_query_click_path(query_click) %></td>
+        <td><%= link_to 'Destroy', query_click, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Query click', new_query_click_path %>

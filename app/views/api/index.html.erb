@@ -1,0 +1,100 @@
+<%= javascript_include_tag "pagination.js" %>
+<%= javascript_include_tag "app.js" %>
+<div ng-app="SearchApp">
+	<div ng-controller="SearchController">
+		<div class="page-header">
+			<h1>Search</h1>
+		</div>
+		<form class="form-inline">
+			<div class="form-group">
+				<input type="text" ng-model="keyword" class="form-control" style="width: 500px"> 
+			</div>
+			<div class="form-group">
+				<button type="button" ng-click="search()" class="btn btn-primary">Search</button>
+				<button type="button" ng-click="done()" class="btn btn-default">Done</button>
+			</div>
+		</form>
+		<div id="search-results">
+			<p ng-if="loading == true">
+				Loading...
+			</p>
+			<ul class="media-list">
+			  	<li class="media" ng-repeat="result in results">
+				    <div class="media-body">
+				      	<h3 class="media-heading"><a href="{{result.link}}" target="_blank" ng-click="register_click(result)">{{result.title}}</a></h3>
+				      	<p class="text-muted">
+				      		{{result.authors}}
+				      	</p>
+				      	<p>
+							{{result.synopsis}}
+						</p>
+						<p>
+							<strong>Sitations: {{result.sitations}}</strong>
+						</p>
+				    </div>
+			  	</li>
+			</ul>
+		</div>
+		<div id="pagination">
+		</div>
+		<div class="modal fade" id="feedback-modal" tabindex="-1" role="dialog" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		      	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title">Who was your previous query?</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<h4>The search results you got for the previous query were</h4>
+				<div class="radio">
+				  <label>
+				    <input type="radio" name="broadness" value="1">
+				    Too broad
+				  </label>
+				</div>
+				<div class="radio">
+				  <label>
+				    <input type="radio" name="broadness" value="2" checked>
+				    Intermediate
+				  </label>
+				</div>
+				<div class="radio">
+				  <label>
+				    <input type="radio" name="broadness" value="3">
+				    Too narrow
+				  </label>
+				</div>
+				<h4>Your satisfaction with the search results you got for the previous query</h4>
+				<div class="radio">
+				  <label>
+				    <input type="radio" name="satisfaction" value="1">
+				    Totally dis-satisfactory
+				  </label>
+				</div>
+				<div class="radio">
+				  <label>
+				    <input type="radio" name="satisfaction" value="2">
+				    Dis-satisfactory
+				  </label>
+				</div>
+				<div class="radio">
+				  <label>
+				    <input type="radio" name="satisfaction" value="3" checked>
+				    Satisfactory
+				  </label>
+				</div>
+				<div class="radio">
+				  <label>
+				    <input type="radio" name="satisfaction" value="4">
+				    Very satisfactory 
+				  </label>
+				</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" ng-click="give_feedback()">Save feedback</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</div>

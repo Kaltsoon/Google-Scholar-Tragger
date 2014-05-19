@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Scholar query:</strong>
+  <%= @query_click.scholar_query_id %>
+</p>
+
+<p>
+  <strong>Heading:</strong>
+  <%= @query_click.heading %>
+</p>
+
+<p>
+  <strong>Synopsis:</strong>
+  <%= @query_click.synopsis %>
+</p>
+
+<p>
+  <strong>Link location:</strong>
+  <%= @query_click.link_location %>
+</p>
+
+<p>
+  <strong>Sitations:</strong>
+  <%= @query_click.sitations %>
+</p>
+
+<p>
+  <strong>Click time:</strong>
+  <%= @query_click.click_time %>
+</p>
+
+<%= link_to 'Edit', edit_query_click_path(@query_click) %> |
+<%= link_to 'Back', query_clicks_path %>

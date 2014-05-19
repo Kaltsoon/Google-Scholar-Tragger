@@ -1,0 +1,41 @@
+<%= form_for(@query_click) do |f| %>
+  <% if @query_click.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@query_click.errors.count, "error") %> prohibited this query_click from being saved:</h2>
+
+      <ul>
+      <% @query_click.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :scholar_query_id %><br>
+    <%= f.number_field :scholar_query_id %>
+  </div>
+  <div class="field">
+    <%= f.label :heading %><br>
+    <%= f.text_area :heading %>
+  </div>
+  <div class="field">
+    <%= f.label :synopsis %><br>
+    <%= f.text_area :synopsis %>
+  </div>
+  <div class="field">
+    <%= f.label :link_location %><br>
+    <%= f.text_field :link_location %>
+  </div>
+  <div class="field">
+    <%= f.label :sitations %><br>
+    <%= f.text_field :sitations %>
+  </div>
+  <div class="field">
+    <%= f.label :click_time %><br>
+    <%= f.datetime_select :click_time %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

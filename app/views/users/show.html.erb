@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+<div class="page-header">
+  <h1><%= @user.name %></h1>
+</div>
+<h2>Url</h2>
+<p>
+  <%= @user.get_url %>
+</p>
+<h2><%= pluralize(@user.scholar_queries.count, "Query") %></h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Query</th>
+      <th>Time</th>
+      <th>Clicks</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @user.scholar_queries.each do |scholar_query| %>
+      <tr>
+        <td><%= link_to scholar_query.query_text, scholar_query_path(scholar_query) %></td>
+        <td><%= scholar_query.created_at %></td>
+        <td><%= scholar_query.query_clicks.count %>
+        <td><%= link_to 'Destroy', scholar_query, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+

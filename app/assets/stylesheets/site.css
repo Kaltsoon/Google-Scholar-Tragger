@@ -1,0 +1,10 @@
+.container{
+	width: 100%;
+}
+.wrapper{
+	max-width: 1200px;
+	padding: 40px 20px;
+}
+#search-results{
+	margin: 25px 0px;
+}
