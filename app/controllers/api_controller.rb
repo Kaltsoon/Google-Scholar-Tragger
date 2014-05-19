@@ -16,7 +16,7 @@ class ApiController < ApplicationController
 	end
 
 	def scholar_query
-		keyword = params[:keyword].gsub(/\s+/, "+")
+		keyword = URI::encode(params[:keyword])
 		start = params[:start]
 		if start == 0
 			url = "http://scholar.google.fi/scholar?hl=en&q=#{keyword}"
