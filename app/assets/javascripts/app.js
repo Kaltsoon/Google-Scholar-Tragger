@@ -4,6 +4,7 @@ searchApp.controller("SearchController", function($scope){
 
 	$scope.results = [];
 	$scope.loading = false;
+	$scope.error = false;
 
 	var current_query_id = null;
 	var current_keyword = "";
@@ -12,7 +13,7 @@ searchApp.controller("SearchController", function($scope){
 	$scope.search = function(){
 
 		$("#pagination").pagination("enable");
-		$("#pagination").pagination("selectPage", 1);
+		$("#pagination").pagination("drawPage", 1);
 
 		if(current_query_id != null){
 			ask_for_feedback();
@@ -67,11 +68,14 @@ searchApp.controller("SearchController", function($scope){
 
 		$scope.results = [];
 
+		$scope.$apply();
+
 		$.post("/query", { keyword: current_keyword, start: get_start() })
 		.done(function(data){
 			callback();
+			$scope.error = false;
 			$scope.results = data.results;
-			var location_pointer = get_page() * 10 + 1;
+			var location_pointer = get_page() * 40 + 1;
 			$scope.results.forEach(function(result){
 				result.location = location_pointer++;
 			});
@@ -79,16 +83,18 @@ searchApp.controller("SearchController", function($scope){
 			$("#pagination").pagination("enable");
 			
 			$scope.loading = false;
-			$scope.$apply();
 			
 		})
 		.fail(function(){
-			alert("Something went wrong!")
+			$scope.error = true;
+		})
+		.always(function(){
+			$scope.$apply();
 		});
 	}
 
 	var get_start = function(){
-		return get_page() * 10;
+		return get_page() * 40;
 	}
 
 	var get_page = function(){
@@ -113,13 +119,15 @@ searchApp.controller("SearchController", function($scope){
 	}
 
 	$("#pagination").pagination({
-        items: 200,
+        items: 150,
         itemsOnPage: 10,
         cssStyle: 'light-theme',
         onPageClick: function(){
+        	$("html, body").animate({ scrollTop: 0 }, "slow");
         	fetch_results(function(){});
         }
     });
+
 
     $("#pagination").pagination("disable");
 

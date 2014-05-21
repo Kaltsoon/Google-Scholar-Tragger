@@ -18,12 +18,7 @@ class ApiController < ApplicationController
 	def scholar_query
 		keyword = URI::encode(params[:keyword])
 		start = params[:start]
-		if start == 0
-			url = "http://scholar.google.fi/scholar?hl=en&q=#{keyword}"
-		else
-			url = "http://scholar.google.fi/scholar?start=#{start}&q=#{keyword}"
-		end
-		render json: { results: fetch_results_from(url) }
+		render json: { results: fetch_results_from_scholar(start, keyword) }
 	end
 
 end
