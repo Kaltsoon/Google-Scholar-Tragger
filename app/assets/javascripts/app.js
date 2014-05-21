@@ -73,6 +73,9 @@ searchApp.controller("SearchController", function($scope){
 		$.post("/query", { keyword: current_keyword, start: get_start() })
 		.done(function(data){
 			callback();
+
+			alert(JSON.stringify(data));
+
 			$scope.error = false;
 			$scope.results = data.results;
 			var location_pointer = get_page() * 40 + 1;
