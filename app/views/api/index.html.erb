@@ -15,6 +15,9 @@
 			</div>
 		</form>
 		<div id="search-results">
+			<p ng-if="results.length == 0">
+				No results
+			</p>
 			<p ng-if="loading == true">
 				Loading...
 			</p>

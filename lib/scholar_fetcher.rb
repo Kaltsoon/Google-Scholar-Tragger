@@ -4,9 +4,20 @@ module ScholarFetcher
 
 	require "nokogiri"
 	require "open-uri"
+	require "net/http"
+	require "uri"
 
 	def fetch_results_from(url)
-		doc = Nokogiri::HTML(open(url))
+
+		uri = URI.parse(url)
+		http = Net::HTTP.new(uri.host, uri.port)
+
+		request = Net::HTTP::Get.new(uri.request_uri)
+		request["User-Agent"] = "Mozilla /5.0 (Compatible MSIE 9.0;Windows NT 6.1;WOW64; Trident/5.0)"
+
+		response = http.request(request)
+
+		doc = Nokogiri::HTML(response.body)
 		
 		results = []
 		doc.css(".gs_ri").each do |result| 
