@@ -40,11 +40,9 @@ module ScholarFetcher
 
 			response = http.request(request)
 
-			puts request.body
-
 			doc = Nokogiri::HTML(response.body)
 			
-			results = request.body
+			results = response.body
 
 			#doc.css(".gs_ri").each do |result| 
 			#	title = ( result.css("h3.gs_rt a").empty? ? nil : result.css("h3.gs_rt a")[0].content )
