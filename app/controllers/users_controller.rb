@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :check_admin, only: [:show, :destroy, :new, :create, :index]
+  before_action :check_admin, only: [:show, :destroy, :new, :create, :index, :download_data]
   # GET /users
   # GET /users.json
   def index
@@ -61,6 +61,38 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url }
       format.json { head :no_content }
     end
+  end
+
+  def download_data
+    user_id = params[:user_id]
+    user = User.find(user_id)
+
+    data = ""
+
+    queries = user.scholar_queries
+    query_clicks = {}
+    queries.each do |query|
+      query_clicks[query.id] = 0
+    end
+
+    data += queries.map{ |q| q.query_text }.join(",")
+    data += "\n"
+
+    for round in 1..100
+      round_values = ""
+
+      queries.each do |query|
+        if( not QueryClick.where(scholar_query_id: query.id, location: round).empty? )
+          query_clicks[query.id] = query_clicks[query.id] + 1
+        end
+        round_values += (query_clicks[query.id].to_s + ",")
+      end
+
+      data += round_values[0,round_values.length-1]
+      data += "\n"
+    end
+
+    send_data(data, filename: "#{user.name}_data.txt")
   end
 
   def admin_login

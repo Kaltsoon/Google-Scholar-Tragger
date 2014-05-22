@@ -1,6 +1,6 @@
 class ApiController < ApplicationController
 
-	include ScholarFetcher
+	include ApiFetcher
 
 	def user_search
 
@@ -18,7 +18,7 @@ class ApiController < ApplicationController
 	def scholar_query
 		keyword = URI::encode(params[:keyword])
 		start = params[:start]
-		render json: { results: fetch_results_from_scholar(start, keyword) }
+		render json: { results: fetch_search_results(start, keyword) }
 	end
 
 end

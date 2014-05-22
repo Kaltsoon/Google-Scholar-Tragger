@@ -18,6 +18,9 @@
 			<div ng-if="error == true" class="alert alert-danger">
 				Something went wrong!
 			</div>
+			<div ng-if="no_results == true" class="alert alert-warning">
+				No results found for your keyword
+			</div>
 			<p ng-if="loading == true">
 				Loading...
 			</p>
@@ -30,9 +33,6 @@
 				      	</p>
 				      	<p>
 							{{result.synopsis}}
-						</p>
-						<p>
-							<strong>Citations: {{result.sitations}}</strong>
 						</p>
 				    </div>
 			  	</li>
