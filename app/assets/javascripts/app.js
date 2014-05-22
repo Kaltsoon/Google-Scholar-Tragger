@@ -12,16 +12,16 @@ searchApp.controller("SearchController", function($scope){
 
 	$scope.search = function(){
 
-		$("#pagination").pagination("enable");
-		$("#pagination").pagination("drawPage", 1);
+		if($scope.keyword.trim() != ""){
 
-		if(current_query_id != null){
-			ask_for_feedback();
-		}
+			if(current_query_id != null){
+				ask_for_feedback();
+			}
 
-		current_keyword = $scope.keyword;
+			current_keyword = $scope.keyword;
 
-		if(current_keyword.trim() != ""){
+			$("#pagination").pagination("enable");
+			$("#pagination").pagination("drawPage", 1);
 
 			fetch_results(function(){
 				$.post("/scholar_queries", { query_text: current_keyword })
@@ -62,37 +62,39 @@ searchApp.controller("SearchController", function($scope){
 
 	var fetch_results = function(callback){
 
-		$scope.loading = true;
-
 		$("#pagination").pagination("disable");
 
 		$scope.results = [];
-
+		$scope.loading = true;
 		$scope.$apply();
 
 		$.post("/query", { keyword: current_keyword, start: get_start() })
 		.done(function(data){
-			callback();
-
-			alert(JSON.stringify(data));
-
-			$scope.error = false;
-			$scope.results = data.results;
+			
+			$("#pagination").pagination("enable");
+			
 			var location_pointer = get_page() * 40 + 1;
+			$scope.results = data.results;
+			if($scope.results.length > 0){
+				callback();
+			}
+			$scope.loading = false;
+			$scope.error = false;
 			$scope.results.forEach(function(result){
 				result.location = location_pointer++;
 			});
-
-			$("#pagination").pagination("enable");
 			
-			$scope.loading = false;
 			
 		})
 		.fail(function(){
+
 			$scope.error = true;
+
 		})
 		.always(function(){
+
 			$scope.$apply();
+			
 		});
 	}
 
