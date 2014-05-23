@@ -73,18 +73,21 @@ searchApp.controller("SearchController", function($scope){
 		.done(function(data){
 			
 			$("#pagination").pagination("enable");
-			
-			callback();
 
+			callback();
+			
 			var location_pointer = get_page() * 40 + 1;
+
 			$scope.results = data.results;
 			$scope.loading = false;
 			$scope.error = false;
+
 			if($scope.results.length > 0){
 				$scope.no_results = false;
 			}else{
 				$scope.no_results = true;
 			}
+
 			$scope.results.forEach(function(result){
 				result.location = location_pointer++;
 			});

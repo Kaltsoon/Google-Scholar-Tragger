@@ -64,8 +64,7 @@ class UsersController < ApplicationController
   end
 
   def download_data
-    user_id = params[:user_id]
-    user = User.find(user_id)
+    user = User.find(params[:user_id])
 
     data = ""
 
@@ -78,7 +77,7 @@ class UsersController < ApplicationController
     data += queries.map{ |q| q.query_text }.join(",")
     data += "\n"
 
-    for round in 1..100
+    for round in 1..40
       round_values = ""
 
       queries.each do |query|
@@ -92,7 +91,7 @@ class UsersController < ApplicationController
       data += "\n"
     end
 
-    send_data(data, filename: "#{user.name}_data.txt")
+    send_data(data, filename: "#{user.name}_data.csv")
   end
 
   def admin_login

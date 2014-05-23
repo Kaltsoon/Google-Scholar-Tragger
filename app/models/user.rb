@@ -3,6 +3,6 @@ class User < ActiveRecord::Base
 	validates :name, uniqueness: true, presence: true
 
 	def get_url
-		return "localhost:3000/search/#{token}"
+		return "/search/#{token}"
 	end
 end
