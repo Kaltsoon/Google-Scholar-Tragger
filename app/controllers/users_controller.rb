@@ -70,28 +70,35 @@ class UsersController < ApplicationController
 
     queries = user.scholar_queries
     query_clicks = {}
+    query_counter = 0
     queries.each do |query|
       query_clicks[query.id] = 0
+      data += query.query_text + ",t#{query_counter},"
+      query_counter = query_counter + 1
     end
 
-    data += queries.map{ |q| q.query_text }.join(",")
+    data = data[0,data.length-1]
     data += "\n"
 
     for round in 1..40
       round_values = ""
 
       queries.each do |query|
+        
+        click_time = "-1"
+
         if( not QueryClick.where(scholar_query_id: query.id, location: round).empty? )
           query_clicks[query.id] = query_clicks[query.id] + 1
+          click_time = QueryClick.where(scholar_query_id: query.id, location: round).first.created_at.to_s
         end
-        round_values += (query_clicks[query.id].to_s + ",")
+        round_values += (query_clicks[query.id].to_s + ",#{click_time},")
       end
 
       data += round_values[0,round_values.length-1]
       data += "\n"
     end
 
-    send_data(data, filename: "#{user.name}_data.csv")
+    send_data(data, filename: "#{user.name}_data.txt")
   end
 
   def admin_login
