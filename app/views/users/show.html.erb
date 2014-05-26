@@ -14,6 +14,7 @@
       <th>Query</th>
       <th>Time</th>
       <th>Clicks</th>
+      <th></th>
     </tr>
   </thead>
 
@@ -24,6 +25,7 @@
         <td><%= scholar_query.created_at %></td>
         <td><%= scholar_query.query_clicks.count %>
         <td><%= link_to 'Destroy', scholar_query, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to "Download data", "/download_query_data/#{scholar_query.id}" %>
       </tr>
     <% end %>
   </tbody>
