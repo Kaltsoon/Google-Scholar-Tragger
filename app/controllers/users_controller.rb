@@ -98,7 +98,7 @@ class UsersController < ApplicationController
       data += "\n"
     end
 
-    send_data(data, filename: "#{user.name}_data.txt")
+    send_data(data, filename: "#{user.name.gsub(/\s+/, "_")}_data.csv")
   end
 
   def admin_login

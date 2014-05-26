@@ -8,7 +8,7 @@ GoogleScholarTragger::Application.routes.draw do
 
 
   get "/login", to: "users#admin_login"
-  get "/download_data/:user_id", to: "users#download_data"
+  get "/download_user_data/:user_id", to: "users#download_data"
   get "/", to: "users#admin_login"
   post "/login", to: "users#admin_login_check"
   post "/logout", to: "users#admin_logout"
@@ -17,5 +17,6 @@ GoogleScholarTragger::Application.routes.draw do
   post "/query", to: "api#scholar_query"
   
   post "/feedback", to: "scholar_queries#feedback"
+  get "/download_query_data/:query_id", to: "scholar_queries#download_data"
 
 end
