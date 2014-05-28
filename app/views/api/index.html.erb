@@ -2,9 +2,20 @@
 <%= javascript_include_tag "app.js" %>
 <div ng-app="SearchApp">
 	<div ng-controller="SearchController">
-		<div class="page-header">
+		<div class="page-header" style="overflow: hidden">
 			<h1>Search</h1>
 		</div>
+		<ul class="list-inline" ng-if="results.length == 0 && loading == false">
+			<li>
+				<strong>Resource:</strong>
+			</li>
+			<li>
+				<input type="radio" name="resource" value="scholar" checked> Google Scholar
+			</li>
+			<li>
+				<input type="radio" name="resource" value="arxiv"> ArXiv
+			</li>
+		</ul>
 		<form class="form-inline">
 			<div class="form-group">
 				<input type="text" ng-model="keyword" class="form-control" style="width: 500px"> 

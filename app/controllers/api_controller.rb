@@ -1,7 +1,6 @@
 class ApiController < ApplicationController
 
-	include ArxivFetcher
-	#include ScholarFetcher
+	include ApiFetcher
 
 	def user_search
 
@@ -17,9 +16,16 @@ class ApiController < ApplicationController
 	end
 
 	def scholar_query
+
 		keyword = URI::encode(params[:keyword])
 		start = params[:start]
-		render json: { results: fetch_search_results(start, keyword) }
+
+		if(params[:resource] == "scholar")
+			render json: { results: fetch_search_results_from_scholar(start, keyword) }
+		else
+			render json: { results: fetch_search_results_from_arxiv(start, keyword) }
+		end
+
 	end
 
 end

@@ -69,7 +69,7 @@ searchApp.controller("SearchController", function($scope){
 		$scope.loading = true;
 		$scope.$apply();
 
-		$.post("/query", { keyword: current_keyword, start: get_start() })
+		$.post("/query", { keyword: current_keyword, start: get_start(), resource: $("input[type='radio'][name='resource']:checked").val() })
 		.done(function(data){
 			
 			$("#pagination").pagination("enable");
@@ -79,7 +79,6 @@ searchApp.controller("SearchController", function($scope){
 			var location_pointer = get_page() * 40 + 1;
 
 			$scope.results = data.results;
-			$scope.loading = false;
 			$scope.error = false;
 
 			if($scope.results.length > 0){
@@ -101,6 +100,7 @@ searchApp.controller("SearchController", function($scope){
 		})
 		.always(function(){
 
+			$scope.loading = false;
 			$scope.$apply();
 			
 		});
