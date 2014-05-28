@@ -5,10 +5,22 @@
 <h2>Download user data</h2>
 <%= form_tag "/download_user_data", method: :post do %>
   <%= hidden_field_tag "user_id", @user.id %>
-  <div class="checkbox">
+  <div class="radio">
     <label>
-      Include timing information of the clicks
-      <%= check_box_tag "include_timing" %>
+      Query clicks with timings
+      <%= radio_button_tag "include", "query_clicks_and_timings", true %>
+    </label>
+  </div>
+  <div class="radio">
+     <label>
+      Query clicks without timings
+       <%= radio_button_tag "include", "query_clicks" %>
+    </label>
+  </div>
+  <div class="radio">
+    <label>
+      Queries with timings
+       <%= radio_button_tag "include", "queries" %>
     </label>
   </div>
   <%= submit_tag "Download data", class: "btn btn-default" %>

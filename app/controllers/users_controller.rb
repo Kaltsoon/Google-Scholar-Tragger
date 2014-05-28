@@ -64,49 +64,17 @@ class UsersController < ApplicationController
   end
 
   def download_data
+
     user = User.find(params[:user_id])
 
-    data = ""
-
-    queries = user.scholar_queries
-    query_clicks = {}
-    query_counter = 0
-    queries.each do |query|
-      query_clicks[query.id] = 0
-      if(params[:include_timing])
-        data += "#{query.query_text},t#{query_counter},"
-      else
-        data += "#{query.query_text},"
-      end
-      query_counter = query_counter + 1
+    if(params[:include] == "query_clicks_and_timings")
+      send_data(get_query_clicks_data(params[:user_id], true), filename: "#{user.name.gsub(/\s+/, "_")}_data.csv")
+    elsif(params[:include] == "query_clicks")
+      send_data(get_query_clicks_data(params[:user_id], false), filename: "#{user.name.gsub(/\s+/, "_")}_data.csv")
+    else
+      send_data(get_query_data(params[:user_id]), filename: "#{user.name.gsub(/\s+/, "_")}_data.csv")
     end
-
-    data = data[0,data.length-1]
-    data += "\n"
-
-    for round in 1..40
-      round_values = ""
-
-      queries.each do |query|
-        
-        click_time = "-1"
-
-        if( not QueryClick.where(scholar_query_id: query.id, location: round).empty? )
-          query_clicks[query.id] = query_clicks[query.id] + 1
-          click_time = QueryClick.where(scholar_query_id: query.id, location: round).first.created_at.to_s
-        end
-        if(params[:include_timing])
-          round_values += "#{query_clicks[query.id].to_s},#{click_time},"
-        else
-          round_values += "#{query_clicks[query.id].to_s},"
-        end
-      end
-
-      data += round_values[0,round_values.length-1]
-      data += "\n"
-    end
-
-    send_data(data, filename: "#{user.name.gsub(/\s+/, "_")}_data.txt")
+      
   end
 
   def admin_login
@@ -133,6 +101,68 @@ class UsersController < ApplicationController
   end
 
   private
+
+    def get_query_data(user_id)
+
+      user = User.find(user_id)
+      queries = user.scholar_queries
+      
+      data = ""
+      queries.each do |query|
+        data += "#{query.query_text},#{query.created_at}\n"
+      end
+
+      return data
+
+    end
+
+    def get_query_clicks_data(user_id, timings)
+
+      user = User.find(user_id)
+
+      data = ""
+
+      queries = user.scholar_queries
+      query_clicks = {}
+      query_counter = 0
+      queries.each do |query|
+        query_clicks[query.id] = 0
+        if(timings)
+          data += "#{query.query_text},t#{query_counter},"
+        else
+          data += "#{query.query_text},"
+        end
+        query_counter = query_counter + 1
+      end
+
+      data = data[0,data.length-1]
+      data += "\n"
+
+      for round in 1..40
+        round_values = ""
+
+        queries.each do |query|
+          
+          click_time = "-1"
+
+          if( not QueryClick.where(scholar_query_id: query.id, location: round).empty? )
+            query_clicks[query.id] = query_clicks[query.id] + 1
+            click_time = QueryClick.where(scholar_query_id: query.id, location: round).first.created_at.to_s
+          end
+          if(timings)
+            round_values += "#{query_clicks[query.id].to_s},#{click_time},"
+          else
+            round_values += "#{query_clicks[query.id].to_s},"
+          end
+        end
+
+        data += round_values[0,round_values.length-1]
+        data += "\n"
+      end
+
+      return data
+
+    end
 
     def check_admin
       if not is_admin?
