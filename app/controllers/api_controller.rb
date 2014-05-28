@@ -1,6 +1,7 @@
 class ApiController < ApplicationController
 
-	include ApiFetcher
+	include ArxivFetcher
+	#include ScholarFetcher
 
 	def user_search
 

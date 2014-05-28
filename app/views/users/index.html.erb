@@ -19,8 +19,7 @@
         <td><%= link_to user.name, user %></td>
         <td><%= user.get_url %></td>
         <td><%= user.scholar_queries.count %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to "Download data", "/download_user_data/#{user.id}" %></td>
+        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></td>
       </tr>
     <% end %>
   </tbody>

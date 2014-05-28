@@ -2,7 +2,17 @@
 <div class="page-header">
   <h1><%= @user.name %></h1>
 </div>
-<%= link_to "Download data", "/download_user_data/#{@user.id}", class: "btn btn-default" %>
+<h2>Download user data</h2>
+<%= form_tag "/download_user_data", method: :post do %>
+  <%= hidden_field_tag "user_id", @user.id %>
+  <div class="checkbox">
+    <label>
+      Include timing information of the clicks
+      <%= check_box_tag "include_timing" %>
+    </label>
+  </div>
+  <%= submit_tag "Download data", class: "btn btn-default" %>
+<% end %>
 <h2>Url</h2>
 <p>
   <%= @user.get_url %>
@@ -14,7 +24,6 @@
       <th>Query</th>
       <th>Time</th>
       <th>Clicks</th>
-      <th></th>
     </tr>
   </thead>
 
@@ -24,8 +33,7 @@
         <td><%= link_to scholar_query.query_text, scholar_query_path(scholar_query) %></td>
         <td><%= scholar_query.created_at %></td>
         <td><%= scholar_query.query_clicks.count %>
-        <td><%= link_to 'Destroy', scholar_query, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to "Download data", "/download_query_data/#{scholar_query.id}" %>
+        <td><%= link_to 'Destroy', scholar_query, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></td>
       </tr>
     <% end %>
   </tbody>

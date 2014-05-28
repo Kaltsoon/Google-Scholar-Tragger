@@ -1,3 +1,12 @@
+a{
+	text-decoration: none !important;
+}
+a:hover{
+	text-decoration: underline !important;
+}
+a.btn:hover, .navbar a{
+	text-decoration: none !important; 
+}
 .container{
 	width: 100%;
 }

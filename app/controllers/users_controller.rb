@@ -73,7 +73,11 @@ class UsersController < ApplicationController
     query_counter = 0
     queries.each do |query|
       query_clicks[query.id] = 0
-      data += query.query_text + ",t#{query_counter},"
+      if(params[:include_timing])
+        data += "#{query.query_text},t#{query_counter},"
+      else
+        data += "#{query.query_text},"
+      end
       query_counter = query_counter + 1
     end
 
@@ -91,14 +95,18 @@ class UsersController < ApplicationController
           query_clicks[query.id] = query_clicks[query.id] + 1
           click_time = QueryClick.where(scholar_query_id: query.id, location: round).first.created_at.to_s
         end
-        round_values += (query_clicks[query.id].to_s + ",#{click_time},")
+        if(params[:include_timing])
+          round_values += "#{query_clicks[query.id].to_s},#{click_time},"
+        else
+          round_values += "#{query_clicks[query.id].to_s},"
+        end
       end
 
       data += round_values[0,round_values.length-1]
       data += "\n"
     end
 
-    send_data(data, filename: "#{user.name.gsub(/\s+/, "_")}_data.csv")
+    send_data(data, filename: "#{user.name.gsub(/\s+/, "_")}_data.txt")
   end
 
   def admin_login
