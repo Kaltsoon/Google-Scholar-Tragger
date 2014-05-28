@@ -65,11 +65,13 @@ searchApp.controller("SearchController", function($scope){
 
 		$("#pagination").pagination("disable");
 
+		var resource = $("input[type='radio'][name='resource']:checked").val();
+
 		$scope.results = [];
 		$scope.loading = true;
 		$scope.$apply();
 
-		$.post("/query", { keyword: current_keyword, start: get_start(), resource: $("input[type='radio'][name='resource']:checked").val() })
+		$.post("/query", { keyword: current_keyword, start: get_start(), resource: resource })
 		.done(function(data){
 			
 			$("#pagination").pagination("enable");
