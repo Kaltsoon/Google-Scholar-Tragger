@@ -128,7 +128,7 @@ class UsersController < ApplicationController
       queries.each do |query|
         query_clicks[query.id] = 0
         if(timings)
-          data += "#{query.query_text},t#{query_counter},"
+          data += "#{query.query_text},t#{query_counter},#{query.broadness_str},#{query.satisfaction_str}"
         else
           data += "#{query.query_text},"
         end
