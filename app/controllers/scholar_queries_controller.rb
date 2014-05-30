@@ -66,7 +66,7 @@ class ScholarQueriesController < ApplicationController
 
   def download_data
     query = ScholarQuery.find(params[:query_id])
-    data = "#{query.query_text},#{query.created_at}"
+    data = "#{query.query_text},#{query.created_at},#{query.satisfaction_str},#{query.broadness_str}"
     send_data(data, filename: "#{query.query_text.gsub(/\s+/, "_")}_data.csv")
   end
 
