@@ -109,7 +109,7 @@ class UsersController < ApplicationController
       
       data = ""
       queries.each do |query|
-        data += "#{query.query_text},#{query.created_at}\n"
+        data += "#{query.query_text},#{query.created_at},#{query.satisfaction_str},#{query.broadness_str}\n"
       end
 
       return data

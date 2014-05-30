@@ -18,8 +18,6 @@ module ApiFetcher
 
 		response = http.request(request)
 
-		puts response.body
-
 		doc = Nokogiri::XML(response.body)
 		
 		results = []
@@ -46,9 +44,12 @@ module ApiFetcher
 		start = start.to_i
 		start_end = start + 3
 
+		pointer = start
+
 		results = []
 		for i in start..start_end
-			results.concat fetch_single_from_scholar(i, keyword)
+			results.concat fetch_single_from_scholar(pointer, keyword)
+			pointer += 10
 		end
 
 		return results
@@ -74,7 +75,7 @@ module ApiFetcher
 
 			response = http.request(request)
 
-			puts response.body
+			puts url
 
 			doc = Nokogiri::HTML(response.body)
 			

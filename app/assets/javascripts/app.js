@@ -7,11 +7,16 @@ searchApp.controller("SearchController", function($scope){
 	$scope.error = false;
 	$scope.no_results = false;
 
+	var api = "arxiv"
 	var current_query_id = null;
 	var current_keyword = "";
 	var feedback_target = null;
 
 	$scope.search = function(){
+
+		if($("input[type='radio'][name='resource']:checked").val()){
+			api = $("input[type='radio'][name='resource']:checked").val();
+		}
 
 		if($scope.keyword.trim() != ""){
 
@@ -65,13 +70,11 @@ searchApp.controller("SearchController", function($scope){
 
 		$("#pagination").pagination("disable");
 
-		var resource = $("input[type='radio'][name='resource']:checked").val();
-
 		$scope.results = [];
 		$scope.loading = true;
 		$scope.$apply();
 
-		$.post("/query", { keyword: current_keyword, start: get_start(), resource: resource })
+		$.post("/query", { keyword: current_keyword, start: get_start(), resource: api })
 		.done(function(data){
 			
 			$("#pagination").pagination("enable");

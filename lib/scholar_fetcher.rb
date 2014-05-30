@@ -40,8 +40,6 @@ module ScholarFetcher
 
 			response = http.request(request)
 
-			puts response.body
-
 			doc = Nokogiri::HTML(response.body)
 			
 			results = []
