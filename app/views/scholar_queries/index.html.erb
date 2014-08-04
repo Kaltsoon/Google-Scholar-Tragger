@@ -20,7 +20,7 @@
         <td><%= scholar_query.created_at %></td>
         <td><span class="badge"><%= scholar_query.query_clicks.count %></span></td>
         <td><%= link_to scholar_query.user.name, scholar_query.user %></td>
-        <td><%= link_to scholar_query.task_report.task.description, scholar_query.task_report.task %></td>
+        <td><%= link_to scholar_query.task_report.task.description, scholar_query.task_report.task unless scholar_query.task_report.nil? %></td>
         <td><%= link_to raw("<i class='fa fa-times'></i> Remove this query"), scholar_query, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></td>
       </tr>
     <% end %>
