@@ -8,6 +8,8 @@
       <th>Time</th>
       <th>Clicks</th>
       <th>User</th>
+      <th>Task</th>
+      <th></th>
     </tr>
   </thead>
 
@@ -16,9 +18,10 @@
       <tr>
         <td><%= link_to scholar_query.query_text, scholar_query_path(scholar_query) %></td>
         <td><%= scholar_query.created_at %></td>
-        <td><%= scholar_query.query_clicks.count %>
-        <td><%= link_to scholar_query.user.name, scholar_query.user %>
-        <td><%= link_to 'Destroy', scholar_query, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></td>
+        <td><span class="badge"><%= scholar_query.query_clicks.count %></span></td>
+        <td><%= link_to scholar_query.user.name, scholar_query.user %></td>
+        <td><%= link_to scholar_query.task_report.task.description, scholar_query.task_report.task %></td>
+        <td><%= link_to raw("<i class='fa fa-times'></i> Remove this query"), scholar_query, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></td>
       </tr>
     <% end %>
   </tbody>

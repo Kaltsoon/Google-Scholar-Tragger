@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140516094541) do
+ActiveRecord::Schema.define(version: 20140708112940) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -32,6 +32,14 @@ ActiveRecord::Schema.define(version: 20140516094541) do
     t.text     "authors"
   end
 
+  create_table "query_scrolls", force: true do |t|
+    t.integer  "scholar_query_id"
+    t.integer  "location"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "scroll_time"
+  end
+
   create_table "scholar_queries", force: true do |t|
     t.text     "query_text"
     t.datetime "created_at"
@@ -39,6 +47,23 @@ ActiveRecord::Schema.define(version: 20140516094541) do
     t.integer  "user_id"
     t.integer  "satisfaction"
     t.integer  "broadness"
+    t.integer  "task_report_id"
+  end
+
+  create_table "task_reports", force: true do |t|
+    t.integer  "task_id"
+    t.integer  "scholar_query_id"
+    t.text     "report"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.datetime "completed"
+  end
+
+  create_table "tasks", force: true do |t|
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

@@ -1,14 +1,14 @@
 <div class="page-header">
-  <h1>Users</h1>
+  <h1>Users
+    <%= link_to raw("<i class='fa fa-plus'></i> New user"), new_user_path, class: "btn btn-success pull-right" %>
+  </h1>
 </div>
-<%= link_to 'New User', new_user_path, class: "btn btn-primary" %>
 <table class="table table-striped">
   <thead>
     <tr>
       <th>Name</th>
       <th>Url</th>
-      <th>Queries</th>
-      <th></th>
+      <th>Task reports</th>
       <th></th>
     </tr>
   </thead>
@@ -17,9 +17,9 @@
     <% @users.each do |user| %>
       <tr>
         <td><%= link_to user.name, user %></td>
-        <td><%= user.get_url %></td>
-        <td><%= user.scholar_queries.count %></td>
-        <td><%= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></td>
+        <td><%= link_to user.get_url, user.get_url %></td>
+        <td><span class="badge"><%= user.task_reports.count %></span></td>
+        <td><%= link_to raw("<i class='fa fa-times'></i> Remove this user"), user, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %></td>
       </tr>
     <% end %>
   </tbody>

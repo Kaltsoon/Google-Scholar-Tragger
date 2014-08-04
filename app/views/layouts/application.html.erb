@@ -3,6 +3,7 @@
 <head>
   <title>Search</title>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
 </head>
@@ -10,7 +11,7 @@
 <div class="container">
 	<div class="wrapper">
 		<% if not session[:admin_id].nil? %>
-			<div class="navbar navbar-default">
+			<div class="navbar navbar-default navbar-fixed-top">
 			  <div class="navbar-header">
 			    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
 			      <span class="icon-bar"></span>
@@ -21,11 +22,14 @@
 			  </div>
 			  <div class="navbar-collapse collapse navbar-responsive-collapse">
 			    <ul class="nav navbar-nav">
-			      	<li><%= link_to "Queries", "/scholar_queries" %></li>
-			  	  	<li><%= link_to "Users", "/users" %></li>
+			      	<li><%= link_to "Queries", scholar_queries_path %></li>
+			  	  	<li><%= link_to "Users", users_path %></li>
+			  	  	<li><%= link_to "Tasks", tasks_path %></li>
 			    </ul>
 			    <%= form_tag "/logout", method: :post, class: "navbar-form navbar-right" do %>
-		        	<%= submit_tag "Log out", class: "btn btn-primary" %>
+		        	<%= button_tag type: "submit", class: "btn btn-primary" do %>
+		        		<i class="fa fa-sign-out"></i> Log out
+		        	<% end %>
 		        <% end %>
 		      	</form>
 			  </div>

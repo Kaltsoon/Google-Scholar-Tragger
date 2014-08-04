@@ -1,11 +1,15 @@
 <div class="page-header">
 	<h1>Query "<%= @scholar_query.query_text %>" by <%= link_to @scholar_query.user.name, @scholar_query.user %> <small>at <i><%= @scholar_query.created_at %></i></small></h1>
 </div>
-<h2>Download query data</h2>
-<%= form_tag "/download_query_data", method: :post do %>
-	<%= hidden_field_tag "query_id", @scholar_query.id %>
-	<%= submit_tag "Download data", class: "btn btn-default" %>
-<% end %>
+<div class="well">
+	<h2>Download query data</h2>
+	<%= form_tag "/download_query_data", method: :post do %>
+		<%= hidden_field_tag "query_id", @scholar_query.id %>
+		<%= button_tag type: "button", class: "btn btn-primary" do %>
+			<i class="fa fa-download"></i> Download data
+		<% end %>
+	<% end %>
+</div>
 <h2>Feedback</h2>
 <h4>Broadness</h4>
 <p>
@@ -15,6 +19,7 @@
 <p>
 	<%= @scholar_query.satisfaction_str %>
 </p>
+<hr>
 <h2><%= pluralize(@scholar_query.query_clicks.count, "Link") %> clicked</h2>
 <ul class="media-list">
 	<% @scholar_query.query_clicks.each do |click| %>
@@ -34,5 +39,11 @@
 	  	</li>
   	<% end %>
 </ul>
+<!--<h2>Scroll behavior</h2>
+<div class="scroll-behavior-container">
+	<% @scholar_query.query_scrolls.each do |scroll| %>
+		<span class="scroll-activity-bar" style="top: <%= scroll.location %>px"></span>
+	<% end %>
+</div>-->
 
 

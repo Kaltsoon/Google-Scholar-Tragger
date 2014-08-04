@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<div class="page-header">
+	<h1><%= @task.description %>
+		<%= link_to raw("<i class='fa fa-pencil'></i> Edit"), edit_task_path(@task), class: "btn btn-default pull-right" %>
+	</h1>
+</div>
+
+<h2><%= pluralize(@task.task_reports.count, "user has", "users have") %> completed this task</h3>
+<%= raw(@task.task_reports.map{ |report| "<a href='/users/#{report.user.id}'>#{report.user.name}</a>" }.to_sentence) %>

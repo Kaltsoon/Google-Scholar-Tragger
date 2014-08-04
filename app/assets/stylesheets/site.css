@@ -1,3 +1,6 @@
+body{
+	padding-top: 60px;
+}
 a{
 	text-decoration: none !important;
 }
@@ -7,13 +10,42 @@ a:hover{
 a.btn:hover, .navbar a{
 	text-decoration: none !important; 
 }
+.marg-right{
+	margin-right: 6px;
+}
+.marg-left{
+	margin-left: 6px;
+}
 .container{
-	width: 100%;
+	width: 100% !important;
 }
 .wrapper{
-	max-width: 1200px;
-	padding: 40px 20px;
+	padding: 0px 30px 30px 30px;
+}
+.navbar-right{
+	margin-right: 0px !important;
 }
 #search-results{
 	margin: 25px 0px;
+}
+.scroll-behavior-container{
+	position: relative;
+}
+.well h1:first-child, .well h2:first-child, .well h3:first-child{
+	margin-top: 0px;
+}
+.scroll-activity-bar{
+	height: 1px;
+	width: 100%;
+	background-color: rgba(255,65,54,.3);
+	position: absolute;
+}
+#search-container{
+	display: none;
+}
+#task-container{
+	display: none;
+}
+#task-report-container{
+	display: none;
 }

@@ -30,7 +30,7 @@ class ScholarQueriesController < ApplicationController
   # POST /scholar_queries
   # POST /scholar_queries.json
   def create
-    @scholar_query = ScholarQuery.new(query_text: params[:query_text], user_id: session[:user_id])
+    @scholar_query = ScholarQuery.new(query_text: params[:query_text], user_id: session[:user_id], task_report_id: params[:task_report_id])
     @scholar_query.save
     render json: { id: @scholar_query.id }
   end

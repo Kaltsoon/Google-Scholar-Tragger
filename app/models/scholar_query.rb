@@ -1,5 +1,8 @@
 class ScholarQuery < ActiveRecord::Base
 	has_many :query_clicks, dependent: :destroy
+	has_many :query_scrolls, dependent: :destroy
+
+	belongs_to :task_report
 	belongs_to :user
 
 	validates :query_text, presence: true

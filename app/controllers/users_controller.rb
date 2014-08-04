@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:edit, :update, :destroy]
   before_action :check_admin, only: [:show, :destroy, :new, :create, :index, :download_data]
   # GET /users
   # GET /users.json
@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @user = User.includes(task_reports: [:task, :scholar_queries]).find(params[:id])
   end
 
   # GET /users/new
@@ -71,6 +72,8 @@ class UsersController < ApplicationController
       send_data(get_query_clicks_data(params[:user_id], true), filename: "#{user.name.gsub(/\s+/, "_")}_data.csv")
     elsif(params[:include] == "query_clicks")
       send_data(get_query_clicks_data(params[:user_id], false), filename: "#{user.name.gsub(/\s+/, "_")}_data.csv")
+    elsif(params[:include] == "query_scroll_behavior")
+      send_data(get_query_scroll_behavior(params[:user_id]), filename: "#{user.name.gsub(/\s+/, "_")}_data.csv")
     else
       send_data(get_query_data(params[:user_id]), filename: "#{user.name.gsub(/\s+/, "_")}_data.csv")
     end
@@ -103,7 +106,6 @@ class UsersController < ApplicationController
   private
 
     def get_query_data(user_id)
-
       user = User.find(user_id)
       queries = user.scholar_queries
       
@@ -116,8 +118,22 @@ class UsersController < ApplicationController
 
     end
 
-    def get_query_clicks_data(user_id, timings)
+    def get_query_scroll_behavior(user_id)
+      queries = User.find(user_id).scholar_queries
+      data = ""
+      query_counter = 0
+      
+      queries.each do |query|
+        data += "#{query.query_text},t#{query_counter}\n"
+        query.query_scrolls.each do |scroll|
+          data += "#{scroll.location},#{scroll.scroll_time}\n"
+        end
+      end
 
+      return data
+    end
+
+    def get_query_clicks_data(user_id, timings)
       user = User.find(user_id)
 
       data = ""

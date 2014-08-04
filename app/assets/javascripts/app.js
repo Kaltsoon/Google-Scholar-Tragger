@@ -1,26 +1,82 @@
 var searchApp = angular.module("SearchApp", []);
 
-searchApp.controller("SearchController", function($scope){
+searchApp.service("UI", function(){
+	return {
+		init_pagination: function(options){
+
+			$("#pagination").pagination({
+		        items: 400,
+		        itemsOnPage: 40,
+		        cssStyle: 'light-theme',
+		        onPageClick: function(){
+		        	$("html, body").animate({ scrollTop: 0 }, "slow");
+		        	options.onPageClick();
+		        }
+		    });
+
+		    $("#pagination").pagination("disable");
+		},
+
+		current_pagination_page: function(){
+
+			return $("#pagination").pagination("getCurrentPage");
+		},
+
+		chosen_task_or: function(default_task){
+
+			return $("input[type='radio'][name='task']:checked").val() || default_task
+		},
+
+		chosen_api_or: function(default_api){
+
+			return $("input[type='radio'][name='resource']:checked").val() || default_api
+		}
+	}
+});
+
+searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 
 	$scope.results = [];
 	$scope.loading = false;
 	$scope.error = false;
 	$scope.no_results = false;
+	$scope.tasks = [];
+	$scope.chosen_task = null;
+	$scope.task_report = null;
 
 	var api = "arxiv"
+	var task_id = null;
 	var current_query_id = null;
 	var current_keyword = "";
+	var current_task_report_id = null;
 	var feedback_target = null;
+	var scroll_buffer = [];
+
+	$scope.choose_task = function(){
+		var chosen_id = UI.chosen_task_or($scope.tasks[0]);
+		$scope.tasks.forEach(function(task){
+			if(task.id == chosen_id){
+				$scope.chosen_task = task;
+				return;
+			}
+		});
+
+		$("#task-container").slideUp(500, function(){
+			$.post("/task_reports", { task_id: $scope.chosen_task.id })
+			.done(function(data){
+				current_task_report_id = data.task_report_id;
+				$("#search-container").fadeIn(500);
+			});
+		});
+	}
 
 	$scope.search = function(){
-
-		if($("input[type='radio'][name='resource']:checked").val()){
-			api = $("input[type='radio'][name='resource']:checked").val();
-		}
+		api = UI.chosen_api_or("arxiv");
 
 		if($scope.keyword.trim() != ""){
 
 			if(current_query_id != null){
+				send_scroll_data();
 				ask_for_feedback();
 			}
 
@@ -30,7 +86,7 @@ searchApp.controller("SearchController", function($scope){
 			$("#pagination").pagination("drawPage", 1);
 
 			fetch_results(function(){
-				$.post("/scholar_queries", { query_text: current_keyword })
+				$.post("/scholar_queries", { query_text: current_keyword, task_report_id: current_task_report_id })
 				.done(function(data){
 					current_query_id = data.id;
 				});
@@ -48,14 +104,15 @@ searchApp.controller("SearchController", function($scope){
 
 	$scope.done = function(){
 		if(current_query_id != null){
+			send_scroll_data();
 
 			ask_for_feedback();	
 
-			$scope.results = [];
-			$scope.keyword = "";
-			current_keyword = "";
-
 			$("#pagination").pagination("disable");
+			
+			$("#search-container").slideUp(500, function(){
+				$("#task-report-container").fadeIn(500);
+			});
 
 			current_query_id = null;
 
@@ -66,8 +123,41 @@ searchApp.controller("SearchController", function($scope){
 		send_feedback();
 	}
 
-	var fetch_results = function(callback){
+	$scope.send_task_report = function(){
+		$.post("/send_task_report", { task_report_id: current_task_report_id, report: $scope.task_report, completed: new Date() })
+		.always(function(){
+			reset_variables();
 
+			$("#task-report-container").slideUp(500, function(){
+				fetch_tasks(function(){ $("#task-container").fadeIn(500) });
+			});
+		});
+	}
+
+	var reset_variables = function(){
+		$scope.keyword = "";
+		$scope.results = [];
+		$scope.loading = false;
+		$scope.error = false;
+		$scope.no_results = false;
+		$scope.tasks = [];
+		$scope.chosen_task = null;
+		$scope.task_report = null;
+
+		api = "arxiv"
+		task_id = null;
+		current_query_id = null;
+		current_keyword = "";
+		current_task_report_id = null;
+		feedback_target = null;
+		scroll_buffer = [];
+
+		$("#pagination").pagination("drawPage", 1);
+
+		$scope.$apply();
+	}
+
+	var fetch_results = function(callback){
 		$("#pagination").pagination("disable");
 
 		$scope.results = [];
@@ -76,7 +166,6 @@ searchApp.controller("SearchController", function($scope){
 
 		$.post("/query", { keyword: current_keyword, start: get_start(), resource: api })
 		.done(function(data){
-			
 			$("#pagination").pagination("enable");
 
 			callback();
@@ -94,20 +183,14 @@ searchApp.controller("SearchController", function($scope){
 
 			$scope.results.forEach(function(result){
 				result.location = location_pointer++;
-			});
-			
-			
+			});		
 		})
 		.fail(function(){
-
 			$scope.error = true;
-
 		})
 		.always(function(){
-
 			$scope.loading = false;
-			$scope.$apply();
-			
+			$scope.$apply();	
 		});
 	}
 
@@ -116,7 +199,7 @@ searchApp.controller("SearchController", function($scope){
 	}
 
 	var get_page = function(){
-		page = $("#pagination").pagination("getCurrentPage") - 1;
+		page = UI.current_pagination_page() - 1;
 		return page;
 	}
 
@@ -124,6 +207,12 @@ searchApp.controller("SearchController", function($scope){
 		feedback_target = current_query_id;
 
 		$("#feedback-modal").modal("show");
+	}
+
+	var send_scroll_data = function(){
+		$.post("/query_scroll", { query_id: current_query_id, scrolls: JSON.stringify(scroll_buffer)}).done(function(data){
+			scroll_buffer = [];
+		});
 	}
 
 	var send_feedback = function(){
@@ -136,17 +225,34 @@ searchApp.controller("SearchController", function($scope){
 		});
 	}
 
-	$("#pagination").pagination({
-        items: 400,
-        itemsOnPage: 40,
-        cssStyle: 'light-theme',
-        onPageClick: function(){
-        	$("html, body").animate({ scrollTop: 0 }, "slow");
-        	fetch_results(function(){});
-        }
+	var fetch_tasks = function(callback){
+		$.get("/users_tasks", function(data){
+			$scope.tasks = data;
+			$scope.chosen_task = data[0];
+			$scope.$apply();
+
+			callback();
+		});
+	}
+
+	fetch_tasks(function(){
+		$("#task-container").fadeIn();
+	});
+
+	UI.init_pagination({
+		onPageClick: function(){
+			fetch_results(function(){});
+		}
+	});
+
+    $(window).bind("scroll", function(){
+    	console.log($(document).scrollTop())
+  		if(current_keyword != "" && $scope.results.length != 0){
+  			scroll_buffer.push({
+	    		location: $(document).scrollTop(),
+	    		time: new Date()
+	    	});
+  		}
     });
 
-
-    $("#pagination").pagination("disable");
-
-});
+}]);

@@ -1,5 +1,7 @@
 GoogleScholarTragger::Application.routes.draw do
   
+  resources :tasks
+
   resources :users, only: [:show, :index, :create, :new, :destroy]
 
   resources :query_clicks, only: [:create]
@@ -18,5 +20,13 @@ GoogleScholarTragger::Application.routes.draw do
   
   post "/feedback", to: "scholar_queries#feedback"
   post "/download_query_data", to: "scholar_queries#download_data"
+
+  post "/query_scroll", to: "query_scrolls#create"
+
+  post "/task_reports", to: "task_reports#create"
+  post "/send_task_report", to: "task_reports#update"
+  delete "/task_reports/:id", to: "task_reports#destroy"
+
+  get "/users_tasks", to: "tasks#users_tasks"
 
 end
