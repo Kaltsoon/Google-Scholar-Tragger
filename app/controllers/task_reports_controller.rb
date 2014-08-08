@@ -25,7 +25,7 @@ class TaskReportsController < ApplicationController
 
  	def download_task_report
  		task_report = TaskReport.find(params[:task_report_id])
- 		filename = "#{task_report.task.description.gsub(/\s+/, "_")}_#{task_report.id}_data.txt"
+ 		filename = "#{task_report.task.description.gsub(/\s+/, "_")}_#{task_report.id}_data.csv"
 
  		if(params[:include] == "queries")
  			send_data(task_report_queries_data(task_report), filename: filename)
