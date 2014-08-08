@@ -25,8 +25,16 @@ class QueryClicksController < ApplicationController
   # POST /query_clicks
   # POST /query_clicks.json
   def create
-    @query_click = QueryClick.new(scholar_query_id: params[:scholar_query_id], heading: params[:heading], synopsis: params[:synopsis], link_location: params[:link_location], sitations: params[:sitations], location: params[:location], authors: params[:authors])
-    @query_click.save
+    query_click = QueryClick.new(scholar_query_id: params[:scholar_query_id], heading: params[:heading], synopsis: params[:synopsis], link_location: params[:link_location], sitations: params[:sitations], location: params[:location], authors: params[:authors])
+    query_click.save
+
+    render json: { id: query_click.id }
+  end
+
+  def query_click_end
+    query_click = QueryClick.find(params[:id])
+    query_click.end_time = Time.now
+    query_click.save
   end
 
   # PATCH/PUT /query_clicks/1

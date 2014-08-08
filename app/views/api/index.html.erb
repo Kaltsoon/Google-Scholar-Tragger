@@ -3,9 +3,11 @@
 <%= javascript_include_tag "app.js" %>
 <div ng-app="SearchApp">
 	<div ng-controller="SearchController">
-		<div class="page-header" style="overflow: hidden">
-			<h1>Search</h1>
+		<div id="result-display-frame">
+			<button class="btn btn-primary" ng-click="hide_result_display_frame()"><i class="fa fa-long-arrow-left marg-right"></i>Back</button>
+			<iframe src=""></iframe>
 		</div>
+
 		<div id="task-container">
 			<div ng-hide="tasks.length == 0">
 				<div class="well">
@@ -26,6 +28,7 @@
 				<h3>You have completed all the tasks!</h3>
 			</div>
 		</div>
+
 		<div id="task-report-container">
 			<div class="well">
 				<h3>Task report <small>{{task}}</small></h3>
@@ -37,31 +40,31 @@
 				</form>
 			</div>
 		</div>
+
 		<div id="search-container">
-			<div class="alert alert-info">
-				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
-				<strong><i class="fa fa-info-circle"></i> Your task:</strong> {{chosen_task.description}}
+			<div id="search-form">
+				<ul class="list-inline" ng-if="results.length == 0 && loading == false">
+					<li>
+						<strong>Resource:</strong>
+					</li>
+					<li>
+						<input type="radio" name="resource" value="scholar"> Google Scholar
+					</li>
+					<li>
+						<input type="radio" name="resource" value="arxiv" checked> ArXiv
+					</li>
+				</ul>
+				<form class="form-inline">
+					<div class="form-group">
+						<input type="text" ng-model="keyword" class="form-control" style="width: 500px"> 
+					</div>
+					<div class="form-group">
+						<button type="submit" ng-click="search()" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
+						<button type="button" ng-click="done()" class="btn btn-default">Done</button>
+					</div>
+				</form>
 			</div>
-			<ul class="list-inline" ng-if="results.length == 0 && loading == false">
-				<li>
-					<strong>Resource:</strong>
-				</li>
-				<li>
-					<input type="radio" name="resource" value="scholar"> Google Scholar
-				</li>
-				<li>
-					<input type="radio" name="resource" value="arxiv" checked> ArXiv
-				</li>
-			</ul>
-			<form class="form-inline">
-				<div class="form-group">
-					<input type="text" ng-model="keyword" class="form-control" style="width: 500px"> 
-				</div>
-				<div class="form-group">
-					<button type="submit" ng-click="search()" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
-					<button type="button" ng-click="done()" class="btn btn-default">Done</button>
-				</div>
-			</form>
+			
 			<div id="search-results">
 				<div ng-if="error == true" class="alert alert-danger">
 					Something went wrong!
@@ -72,10 +75,12 @@
 				<p ng-if="loading == true">
 					Loading...
 				</p>
-				<ul class="media-list">
+				<ul class="media-list" id="search-results-list">
 				  	<li class="media" ng-repeat="result in results">
+				  		<div class="footer-teaser"></div>
+
 					    <div class="media-body">
-					      	<h3 class="media-heading"><a href="{{result.link}}" target="_blank" ng-click="register_click(result)">{{result.title}}</a></h3>
+					      	<h3 class="media-heading"><a style="cursor: pointer;" ng-click="register_click(result)">{{result.title}}</a></h3>
 					      	<p class="text-muted">
 					      		{{result.authors}}
 					      	</p>

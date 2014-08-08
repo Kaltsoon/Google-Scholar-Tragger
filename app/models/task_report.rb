@@ -9,7 +9,7 @@ class TaskReport < ActiveRecord::Base
 		if completed.nil?
 			return "[Not completed]"
 		else
-			return "#{((completed - created_at) / 60).round(2)} min"
+			return completed - created_at
 		end
 	end
 end

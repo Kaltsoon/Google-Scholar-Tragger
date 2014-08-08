@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140708112940) do
+ActiveRecord::Schema.define(version: 20140806124503) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20140708112940) do
     t.datetime "updated_at"
     t.integer  "location"
     t.text     "authors"
+    t.datetime "end_time"
   end
 
   create_table "query_scrolls", force: true do |t|

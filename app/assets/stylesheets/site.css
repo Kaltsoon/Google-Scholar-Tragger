@@ -10,6 +10,30 @@ a:hover{
 a.btn:hover, .navbar a{
 	text-decoration: none !important; 
 }
+.media{
+	position: relative;
+}
+
+.media .footer-teaser{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	border-bottom: 1px solid rgb(220,220,220);
+	height: 20px;
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, rgba(255,255,255,.05)),
+		color-stop(1, #FFFFFF)
+	);
+	background-image: -o-linear-gradient(bottom, rgba(255,255,255,.05) 0%, #FFFFFF 100%);
+	background-image: -moz-linear-gradient(bottom, rgba(255,255,255,.05) 0%, #FFFFFF 100%);
+	background-image: -webkit-linear-gradient(bottom, rgba(255,255,255,.05) 0%, #FFFFFF 100%);
+	background-image: -ms-linear-gradient(bottom, rgba(255,255,255,.05) 0%, #FFFFFF 100%);
+	background-image: linear-gradient(to bottom, rgba(255,255,255,.05) 0%, #FFFFFF 100%);
+	}
 .marg-right{
 	margin-right: 6px;
 }
@@ -39,6 +63,33 @@ a.btn:hover, .navbar a{
 	width: 100%;
 	background-color: rgba(255,65,54,.3);
 	position: absolute;
+}
+#result-display-frame{
+	position: fixed;
+	top: 0px;
+	left: -100%;
+	width: 100%;
+	background-color: rgb(40,40,40);
+	transition: 0.5s;
+	z-index: 98;
+}
+#result-display-frame.bring-left{
+	left: 0px;
+	transition: 0.5s;
+}
+#result-display-frame.bring-left button{
+	left: 10px;
+}
+#result-display-frame iframe{
+	border: 0px none;
+	width: 100%;
+}
+#result-display-frame button{
+	transition: left 0.5s;
+	position: fixed; 
+	left: -80px; 
+	bottom: 10px; 
+	z-index: 99;
 }
 #search-container{
 	display: none;

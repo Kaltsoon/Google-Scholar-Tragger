@@ -1,4 +1,7 @@
 class ScholarQueriesController < ApplicationController
+  
+  include DataFormatter 
+
   before_action :set_scholar_query, only: [:show, :edit, :update, :destroy]
   before_action :check_user, only: [:create, :feedback]
   before_action :check_admin, only: [:show, :destroy, :index]
@@ -64,10 +67,20 @@ class ScholarQueriesController < ApplicationController
     query.update(satisfaction: params[:satisfaction], broadness: params[:broadness])
   end
 
-  def download_data
+  #def download_data
+  #  query = ScholarQuery.find(params[:query_id])
+  #  data = "#{query.query_text},#{query.created_at},#{query.satisfaction_str},#{query.broadness_str}"
+  #  send_data(data, filename: "#{query.query_text.gsub(/\s+/, "_")}_data.csv")
+  #end
+
+  def download_scroll_behavior
     query = ScholarQuery.find(params[:query_id])
-    data = "#{query.query_text},#{query.created_at},#{query.satisfaction_str},#{query.broadness_str}"
-    send_data(data, filename: "#{query.query_text.gsub(/\s+/, "_")}_data.csv")
+    send_data(query_scroll_behavior_data(query), filename: "#{query.query_text.gsub(/\s+/, "_")}_data.txt")
+  end
+
+  def download_clicks_timings
+    query = ScholarQuery.find(params[:query_id]) 
+    send_data(query_clicks_timings_data(query), filename: "#{query.query_text.gsub(/\s+/, "_")}_data.txt")
   end
 
   private

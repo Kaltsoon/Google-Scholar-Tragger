@@ -2,8 +2,42 @@ var searchApp = angular.module("SearchApp", []);
 
 searchApp.service("UI", function(){
 	return {
-		init_pagination: function(options){
+		fit_results_on_screen: function(){
+			var screen_height = $(window).height();
+			var height_to_share = screen_height - $("#search-form").outerHeight(true) - ( 20 + 150 + 10); // 10 * margin + body margin + 10
+			var height_for_each = height_to_share / 10;
+			console.log(height_for_each);
+			console.log("count: " + $("#search-results-list .media").length)
+			$("#search-results-list .media").each(function(index){
+				$(this).css("height", height_for_each + "px");
+			});
+		},
 
+		set_iframe_dimensions: function(){
+			$("#result-display-frame, #result-display-frame iframe").css({
+				height: $(window).height()
+			});
+		},
+
+		hide_iframe: function(){
+			$("#result-display-frame").removeClass("bring-left");
+		},		
+
+		show_iframe: function(url){
+			$("#result-display-frame, #result-display-frame iframe").css({
+				height: $(window).height()
+			});
+
+			$("#result-display-frame iframe").attr("src", url);
+			$("#result-display-frame").addClass("bring-left");
+		},
+
+		hide_menu: function(){
+			$(".navbar").hide();
+			$("body").css("padding-top", "20px");
+		},
+
+		init_pagination: function(options){
 			$("#pagination").pagination({
 		        items: 400,
 		        itemsOnPage: 40,
@@ -18,17 +52,14 @@ searchApp.service("UI", function(){
 		},
 
 		current_pagination_page: function(){
-
 			return $("#pagination").pagination("getCurrentPage");
 		},
 
 		chosen_task_or: function(default_task){
-
 			return $("input[type='radio'][name='task']:checked").val() || default_task
 		},
 
 		chosen_api_or: function(default_api){
-
 			return $("input[type='radio'][name='resource']:checked").val() || default_api
 		}
 	}
@@ -51,6 +82,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	var current_task_report_id = null;
 	var feedback_target = null;
 	var scroll_buffer = [];
+	var active_click = null;
 
 	$scope.choose_task = function(){
 		var chosen_id = UI.chosen_task_or($scope.tasks[0]);
@@ -98,7 +130,13 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 
 	$scope.register_click = function(result){
 		if(current_query_id != null){
-			$.post("/query_clicks", { scholar_query_id: current_query_id, heading: result.title, link_location: result.link, synopsis: result.synopsis, location: result.location, authors: result.authors, sitations: result.sitations });
+			active_click = result;
+			UI.show_iframe(result.link);
+			$.post("/query_clicks", { scholar_query_id: current_query_id, heading: result.title, link_location: result.link, synopsis: result.synopsis, location: result.location, authors: result.authors, sitations: result.sitations })
+			.done(function(data){
+				console.log("ID RECIEVED: " + data.id)
+				active_click.id = data.id;
+			});
 		}
 	}
 
@@ -115,8 +153,13 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 			});
 
 			current_query_id = null;
-
 		}
+	}
+
+	$scope.hide_result_display_frame = function(){
+		UI.hide_iframe();
+		$.post("/query_click_end", { id: active_click.id });
+		active_click = null;
 	}
 
 	$scope.give_feedback = function(){
@@ -190,7 +233,8 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		})
 		.always(function(){
 			$scope.loading = false;
-			$scope.$apply();	
+			$scope.$apply();
+			UI.fit_results_on_screen();
 		});
 	}
 
@@ -239,6 +283,8 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		$("#task-container").fadeIn();
 	});
 
+	UI.set_iframe_dimensions();
+	UI.hide_menu();
 	UI.init_pagination({
 		onPageClick: function(){
 			fetch_results(function(){});
@@ -246,10 +292,11 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	});
 
     $(window).bind("scroll", function(){
-    	console.log($(document).scrollTop())
-  		if(current_keyword != "" && $scope.results.length != 0){
+    	var location = Math.max(0, $(document).scrollTop() - $("#search-form").outerHeight(true) - 20);
+  		if(current_keyword != "" && $scope.results.length != 0 && location > 0 && active_click == null){
+  			console.log(location);
   			scroll_buffer.push({
-	    		location: $(document).scrollTop(),
+	    		location: location,
 	    		time: new Date()
 	    	});
   		}
