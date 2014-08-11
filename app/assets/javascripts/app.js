@@ -4,8 +4,8 @@ searchApp.service("UI", function(){
 	return {
 		fit_results_on_screen: function(){
 			var screen_height = $(window).height();
-			var height_to_share = screen_height - $("#search-form").outerHeight(true) - ( 20 + 150 + 10); // 10 * margin + body margin + 10
-			var height_for_each = height_to_share / 10;
+			var height_to_share = screen_height - $("#search-form").outerHeight(true) - ( 20 + 15 * 7 + 10); // body margin + 10 * margin + 10
+			var height_for_each = height_to_share / 7;
 			console.log(height_for_each);
 			console.log("count: " + $("#search-results-list .media").length)
 			$("#search-results-list .media").each(function(index){

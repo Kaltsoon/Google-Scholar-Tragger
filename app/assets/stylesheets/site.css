@@ -13,7 +13,12 @@ a.btn:hover, .navbar a{
 .media{
 	position: relative;
 }
-
+.media:hover{
+	height: auto !important;
+}
+.media:hover .footer-teaser{
+	background-image: none;
+}
 .media .footer-teaser{
 	position: absolute;
 	bottom: 0px;
