@@ -2,12 +2,11 @@ var searchApp = angular.module("SearchApp", []);
 
 searchApp.service("UI", function(){
 	return {
-		fit_results_on_screen: function(){
+		fit_results_on_screen: function(count){
 			var screen_height = $(window).height();
-			var height_to_share = screen_height - $("#search-form").outerHeight(true) - ( 20 + 15 * 7 + 10); // body margin + 10 * margin + 10
-			var height_for_each = height_to_share / 7;
-			console.log(height_for_each);
-			console.log("count: " + $("#search-results-list .media").length)
+			var height_to_share = screen_height - $("#search-form").outerHeight(true) - ( 20 + 15 * count + 10); // body margin + 10 * margin + 10
+			var height_for_each = height_to_share / count;
+
 			$("#search-results-list .media").each(function(index){
 				$(this).css("height", height_for_each + "px");
 			});
@@ -83,6 +82,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	var feedback_target = null;
 	var scroll_buffer = [];
 	var active_click = null;
+	var results_on_screen = 7;
 
 	$scope.choose_task = function(){
 		var chosen_id = UI.chosen_task_or($scope.tasks[0]);
@@ -195,6 +195,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		feedback_target = null;
 		scroll_buffer = [];
 
+
 		$("#pagination").pagination("drawPage", 1);
 
 		$scope.$apply();
@@ -234,7 +235,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		.always(function(){
 			$scope.loading = false;
 			$scope.$apply();
-			UI.fit_results_on_screen();
+			UI.fit_results_on_screen(results_on_screen);
 		});
 	}
 
@@ -302,4 +303,17 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
   		}
     });
 
+    $(document).ready(function(){
+    	 $( "#slider-vertical" ).slider({
+			orientation: "vertical",
+			range: "min",
+			min: 3,
+			max: 10,
+			value: 7,
+			slide: function(event, slider){
+				results_on_screen = slider.value;
+				UI.fit_results_on_screen(results_on_screen);
+			}
+		});
+    });
 }]);

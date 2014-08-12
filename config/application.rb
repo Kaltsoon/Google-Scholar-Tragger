@@ -10,7 +10,7 @@ module GoogleScholarTragger
   class Application < Rails::Application
     config.time_zone = "Helsinki"
     config.active_record.default_timezone = :local
-    config.assets.precompile += ["app.js", "pagination.js", "cookie.js"]
+    config.assets.precompile += ["app.js", "pagination.js", "jquery-ui.js"]
     config.autoload_paths += Dir["#{Rails.root}/lib"]
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

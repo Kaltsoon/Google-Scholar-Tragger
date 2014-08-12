@@ -10,14 +10,25 @@ a:hover{
 a.btn:hover, .navbar a{
 	text-decoration: none !important; 
 }
+#slider-vertical{
+	border-radius: 0px !important;
+	border: 1px solid rgb(210,210,210) !important;
+}
+#slider-vertical div{
+	border-radius: 0px;
+}
+#slider-vertical .ui-slider-handle{
+	border-radius: 50%;
+	background-image: none;
+	background-color: rgb(240,240,240);
+	border: 1px solid rgb(200,200,200);
+}
+#slider-vertical .ui-widget-header{
+	background-image: none;
+	background-color: #158CBA;
+}
 .media{
 	position: relative;
-}
-.media:hover{
-	height: auto !important;
-}
-.media:hover .footer-teaser{
-	background-image: none;
 }
 .media .footer-teaser{
 	position: absolute;
