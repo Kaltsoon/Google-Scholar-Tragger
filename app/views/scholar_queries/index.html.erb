@@ -17,7 +17,7 @@
     <% @scholar_queries.each do |scholar_query| %>
       <tr>
         <td><%= link_to scholar_query.query_text, scholar_query_path(scholar_query) %></td>
-        <td><%= scholar_query.created_at %></td>
+        <td><%= scholar_query.query_time || scholar_query.created_at %></td>
         <td><span class="badge"><%= scholar_query.query_clicks.count %></span></td>
         <td><%= link_to scholar_query.user.name, scholar_query.user %></td>
         <td><%= link_to scholar_query.task_report.task.description, scholar_query.task_report.task unless scholar_query.task_report.nil? %></td>

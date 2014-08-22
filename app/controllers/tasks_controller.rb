@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
 
   before_action :set_task, only: [:edit, :update, :destroy]
+  before_action :set_task_types, only: [:edit, :new]
 
   # GET /tasks
   # GET /tasks.json
@@ -76,6 +77,11 @@ class TasksController < ApplicationController
   end
 
   private
+
+    def set_task_types
+      @task_types = ["Lookup", "Exploratory"]
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_task
       @task = Task.find(params[:id])
@@ -83,6 +89,6 @@ class TasksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def task_params
-      params.require(:task).permit(:description)
+      params.require(:task).permit(:description, :task_type, :title)
     end
 end

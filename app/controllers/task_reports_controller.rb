@@ -3,7 +3,7 @@ class TaskReportsController < ApplicationController
 	include DataFormatter
 
 	def create
-		report = TaskReport.new(report: params[:report], task_id: params[:task_id], user_id: session[:user_id])
+		report = TaskReport.new(report: params[:report], task_id: params[:task_id], user_id: session[:user_id], started: params[:started])
 		if report.save
 			render json: { task_report_id: report.id }
 		end

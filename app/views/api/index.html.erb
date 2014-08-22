@@ -1,5 +1,6 @@
 <%= javascript_include_tag "jquery-ui.js" %>
 <%= javascript_include_tag "pagination.js" %>
+<%= javascript_include_tag "debounce.js" %>
 <%= javascript_include_tag "app.js" %>
 <div ng-app="SearchApp">
 	<div ng-controller="SearchController">
@@ -16,7 +17,10 @@
 						<div class="radio" ng-repeat="task in tasks">
 						  	<label>
 						    	<input type="radio" name="task" value="{{task.id}}">
-						    	{{task.description}}
+						    	<strong>{{task.title}}</strong>
+						    	<p class="text-muted">
+						    		{{task.description}}
+						    	</p>
 						  	</label>
 						</div>
 						<button type="submit" class="btn btn-success" ng-click="choose_task()"><i class="fa fa-check"></i> Choose this task</button>
@@ -34,7 +38,7 @@
 				<h3>Task report <small>{{task}}</small></h3>
 				<form>
 					<div class="form-group">
-						<textarea class="form-control" ng-model="task_report"></textarea>
+						<textarea class="form-control" ng-model="task_report" rows="12"></textarea>
 					</div>
 					<button type="submit" class="btn btn-success" ng-click="send_task_report()"><i class="fa fa-send"></i> Send task report</button>
 				</form>

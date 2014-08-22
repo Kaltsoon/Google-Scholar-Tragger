@@ -80,9 +80,14 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	var current_keyword = "";
 	var current_task_report_id = null;
 	var feedback_target = null;
-	var scroll_buffer = [];
 	var active_click = null;
 	var results_on_screen = 7;
+
+	var scroll_buffer = [];
+	var scroll_start_location = null;
+	var scroll_start_time = null;
+	var scroll_end_location = null;
+	var scroll_end_time = null;
 
 	$scope.choose_task = function(){
 		var chosen_id = UI.chosen_task_or($scope.tasks[0]);
@@ -94,7 +99,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		});
 
 		$("#task-container").slideUp(500, function(){
-			$.post("/task_reports", { task_id: $scope.chosen_task.id })
+			$.post("/task_reports", { task_id: $scope.chosen_task.id, started: new Date() })
 			.done(function(data){
 				current_task_report_id = data.task_report_id;
 				$("#search-container").fadeIn(500);
@@ -118,7 +123,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 			$("#pagination").pagination("drawPage", 1);
 
 			fetch_results(function(){
-				$.post("/scholar_queries", { query_text: current_keyword, task_report_id: current_task_report_id })
+				$.post("/scholar_queries", { query_text: current_keyword, task_report_id: current_task_report_id, query_time: new Date() })
 				.done(function(data){
 					current_query_id = data.id;
 				});
@@ -132,7 +137,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		if(current_query_id != null){
 			active_click = result;
 			UI.show_iframe(result.link);
-			$.post("/query_clicks", { scholar_query_id: current_query_id, heading: result.title, link_location: result.link, synopsis: result.synopsis, location: result.location, authors: result.authors, sitations: result.sitations })
+			$.post("/query_clicks", { scholar_query_id: current_query_id, heading: result.title, link_location: result.link, synopsis: result.synopsis, location: result.location, authors: result.authors, sitations: result.sitations, click_time: new Date() })
 			.done(function(data){
 				console.log("ID RECIEVED: " + data.id)
 				active_click.id = data.id;
@@ -193,8 +198,8 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		current_keyword = "";
 		current_task_report_id = null;
 		feedback_target = null;
+		
 		scroll_buffer = [];
-
 
 		$("#pagination").pagination("drawPage", 1);
 
@@ -280,6 +285,23 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		});
 	}
 
+	var get_scroll_location = function(){
+		return Math.max(0, $(document).scrollTop() - $("#search-form").outerHeight(true) - 20);
+	}
+
+	var register_scroll = function(start_l, end_l, start_t, end_t){
+		var location = get_scroll_location();
+
+  		if(current_keyword != "" && $scope.results.length != 0 && location >= 0 && active_click == null){
+  			scroll_buffer.push({
+	    		start_position: start_l,
+	    		end_position: end_l,
+	    		start_time: start_t,
+	    		end_time: end_t
+	    	});
+  		}
+	}
+
 	fetch_tasks(function(){
 		$("#task-container").fadeIn();
 	});
@@ -292,16 +314,25 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		}
 	});
 
-    $(window).bind("scroll", function(){
-    	var location = Math.max(0, $(document).scrollTop() - $("#search-form").outerHeight(true) - 20);
-  		if(current_keyword != "" && $scope.results.length != 0 && location > 0 && active_click == null){
-  			console.log(location);
-  			scroll_buffer.push({
-	    		location: location,
-	    		time: new Date()
-	    	});
-  		}
-    });
+	$(window).scroll($.debounce(250, true, function(){
+	    if(!scroll_start_location){
+	    	scroll_start_time = new Date();
+	    	scroll_start_location = get_scroll_location();
+	    }
+	}));
+
+	$(window).scroll($.debounce(250, function(){
+    	scroll_end_location = get_scroll_location();
+    	scroll_end_time = new Date();
+
+    	register_scroll(scroll_start_location, scroll_end_location, scroll_start_time, scroll_end_time);
+    	console.log(scroll_start_location + "," + scroll_end_location)
+
+    	scroll_start_location = null;
+    	scroll_end_location = null;
+    	scroll_start_time = null;
+    	scroll_end_time = null;
+	}));
 
     $(document).ready(function(){
     	 $( "#slider-vertical" ).slider({

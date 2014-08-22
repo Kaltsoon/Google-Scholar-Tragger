@@ -25,7 +25,7 @@
                     <h3 style="margin-top: 0px">Information</h3>
                      <dl style="margin-bottom: 0px">
                         <dt>Started at</dt>
-                        <dd><%= report.created_at %></dd>
+                        <dd><%= report.started || report.created_at %></dd>
                         <dt>Completed at</dt>
                         <dd><%= report.completed %></dd>
                         <dt>Duration</dt>
@@ -87,7 +87,7 @@
             <% report.scholar_queries.each do |scholar_query| %>
               <tr>
                 <td><%= link_to scholar_query.query_text, scholar_query_path(scholar_query) %></td>
-                <td><%= scholar_query.created_at %></td>
+                <td><%= scholar_query.query_time || scholar_query.created_at %></td>
                 <td><%= link_to raw('<i class="fa fa-download marg-right"></i>download'), "/download_query_clicks/#{scholar_query.id}", class: 'btn btn-default btn-sm'; %></td>
                 <td><%= link_to raw('<i class="fa fa-download marg-right"></i>download'), "/download_query_scroll_behavior/#{scholar_query.id}", class: 'btn btn-default btn-sm'; %></td>
                 <td><span class="badge"><%= scholar_query.query_clicks.count %></span></td>

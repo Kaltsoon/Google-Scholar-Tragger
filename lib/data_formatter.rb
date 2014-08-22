@@ -3,11 +3,27 @@ module DataFormatter
 	extend ActiveSupport::Concern
 
 	def query_clicks_timings_data(query)
-		clicks = query.query_clicks
-		data = ""
+		clicks = query.query_clicks.order(:location)
+		data = "id,cumulated_clicks,title,start_click_time,end_click_time,duration\n"
+		
+		if( clicks.last.nil? )
+			return data;
+		end
 
-		clicks.each do |click|
-			data += "#{click.heading},#{click.created_at},#{click.end_time},#{click.duration}\n"
+		cumulation = 0
+		iterator = 1
+
+		for l in 1..clicks.last.location
+			click_in_location = clicks.find_by(location: l) 
+
+			if( click_in_location.nil? )
+				data += "#{iterator},#{cumulation},?,-1,-1,-1\n"
+			else
+				cumulation = cumulation + 1
+				data += "#{iterator},#{cumulation},#{click_in_location.heading},#{click_in_location.click_time || click_in_location.created_at},#{click_in_location.end_time},#{click_in_location.duration}\n"
+			end
+
+			iterator = iterator + 1
 		end
 
 		return data
@@ -15,25 +31,29 @@ module DataFormatter
 
 	def query_scroll_behavior_data(query)
 		scrolls = query.query_scrolls;
-		data = ""
+		data = "start_position_y,start_time,end_time,end_position_y,length\n"
 
 		scrolls.each do |scroll|
-			data += "#{scroll.location},#{scroll.scroll_time}"
+			data += "#{scroll.start_position},#{scroll.start_time},#{scroll.end_time},#{scroll.end_position},#{( scroll.start_position - scroll.end_position ).abs}\n"
 		end
 
 		return data
 	end
 
 	def task_report_summary(task)
-		return "#{task.created_at},#{task.completed},#{task.duration},#{task.report}"
+		t = task.task
+
+		data = "start_time, end_time, duration_seconds, answer, task_description\n"
+		data += "#{task.started || task.created_at},#{task.completed},#{task.duration},#{task.report},#{t.title} - #{t.task_type}"
+		return data
 	end
 
 	def task_report_queries_data(task)
 		queries = task.scholar_queries
-	    data = ""
+	    data = "query,time,satisfaction,specificity\n"
 
 	    queries.each do |query|
-	    	data += "#{query.query_text},#{query.created_at},#{query.satisfaction_str},#{query.broadness_str}\n"
+	    	data += "#{query.query_text},#{query.query_time || query.created_at},#{query.satisfaction_str},#{query.broadness_str}\n"
 	    end
 
 	    return data

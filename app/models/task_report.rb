@@ -9,7 +9,7 @@ class TaskReport < ActiveRecord::Base
 		if completed.nil?
 			return "[Not completed]"
 		else
-			return completed - created_at
+			return completed - ( started || created_at )
 		end
 	end
 end

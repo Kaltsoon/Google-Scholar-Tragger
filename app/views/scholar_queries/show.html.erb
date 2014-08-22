@@ -1,5 +1,5 @@
 <div class="page-header">
-	<h1>Query "<%= @scholar_query.query_text %>" by <%= link_to @scholar_query.user.name, @scholar_query.user %> <small>at <i><%= @scholar_query.created_at %></i></small></h1>
+	<h1>Query "<%= @scholar_query.query_text %>" by <%= link_to @scholar_query.user.name, @scholar_query.user %> <small>at <i><%= @scholar_query.query_time || @scholar_query.created_at %></i></small></h1>
 </div>
 <div class="well">
 	<h2>Download query data</h2>
@@ -25,7 +25,7 @@
 	<% @scholar_query.query_clicks.each do |click| %>
 	  	<li class="media">
 		    <div class="media-body">
-		      	<h3 class="media-heading"><a href="<%= click.link_location %>" target="blank"><%= click.heading %></a> <small>at <i><%= click.created_at %></i></small></h3>
+		      	<h3 class="media-heading"><a href="<%= click.link_location %>" target="blank"><%= click.heading %></a> <small>at <i><%= click.click_time || click.created_at %></i></small></h3>
 		      	<p class="text-muted">
 		      		<%= click.authors %>
 		      	</p>
