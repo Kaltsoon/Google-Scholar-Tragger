@@ -31,10 +31,10 @@ module DataFormatter
 
 	def query_scroll_behavior_data(query)
 		scrolls = query.query_scrolls;
-		data = "start_position_y,start_time,end_time,end_position_y,length\n"
+		data = "position,time\n"
 
 		scrolls.each do |scroll|
-			data += "#{scroll.start_position},#{scroll.start_time},#{scroll.end_time},#{scroll.end_position},#{( scroll.start_position - scroll.end_position ).abs}\n"
+			data += "#{scroll.location},#{scroll.scroll_time}\n"
 		end
 
 		return data

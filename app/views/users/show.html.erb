@@ -9,7 +9,7 @@
 <div class="panel-group" id="accordion">
 <% @user.task_reports.each do |report| %>
   <div class="panel panel-default">
-    <div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= report.id %>"><i class="fa fa-file-text marg-right"></i><%= report.task.description %></a> <small>started at <%= report.created_at %></small></h4></div>
+    <div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= report.id %>"><i class="fa fa-file-text marg-right"></i><%= report.task.title %></a> <small>started at <%= report.created_at %></small></h4></div>
 
     <div id="collapse-<%= report.id %>" class="panel-collapse collapse">
       <div class="panel-body">

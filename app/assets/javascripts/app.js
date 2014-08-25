@@ -84,10 +84,6 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	var results_on_screen = 7;
 
 	var scroll_buffer = [];
-	var scroll_start_location = null;
-	var scroll_start_time = null;
-	var scroll_end_location = null;
-	var scroll_end_time = null;
 
 	$scope.choose_task = function(){
 		var chosen_id = UI.chosen_task_or($scope.tasks[0]);
@@ -289,15 +285,13 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		return Math.max(0, $(document).scrollTop() - $("#search-form").outerHeight(true) - 20);
 	}
 
-	var register_scroll = function(start_l, end_l, start_t, end_t){
+	var register_scroll = function(){
 		var location = get_scroll_location();
 
   		if(current_keyword != "" && $scope.results.length != 0 && location >= 0 && active_click == null){
   			scroll_buffer.push({
-	    		start_position: start_l,
-	    		end_position: end_l,
-	    		start_time: start_t,
-	    		end_time: end_t
+	    		location: location,
+	    		time: new Date()
 	    	});
   		}
 	}
@@ -314,25 +308,9 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		}
 	});
 
-	$(window).scroll($.debounce(250, true, function(){
-	    if(!scroll_start_location){
-	    	scroll_start_time = new Date();
-	    	scroll_start_location = get_scroll_location();
-	    }
-	}));
-
-	$(window).scroll($.debounce(250, function(){
-    	scroll_end_location = get_scroll_location();
-    	scroll_end_time = new Date();
-
-    	register_scroll(scroll_start_location, scroll_end_location, scroll_start_time, scroll_end_time);
-    	console.log(scroll_start_location + "," + scroll_end_location)
-
-    	scroll_start_location = null;
-    	scroll_end_location = null;
-    	scroll_start_time = null;
-    	scroll_end_time = null;
-	}));
+	$(window).scroll(function(){
+		register_scroll();
+	})
 
     $(document).ready(function(){
     	 $( "#slider-vertical" ).slider({
