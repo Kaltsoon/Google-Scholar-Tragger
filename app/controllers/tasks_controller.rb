@@ -33,7 +33,7 @@ class TasksController < ApplicationController
         remaining.push(task) unless completed.include? task.id
     end
 
-    render json: remaining
+    render json: remaining.shuffle
   end
 
   # POST /tasks

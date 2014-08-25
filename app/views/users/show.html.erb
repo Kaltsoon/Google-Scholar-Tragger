@@ -7,7 +7,7 @@
 </div>
 <h2><%= pluralize(@user.task_reports.count, "task report") %></h2>
 <div class="panel-group" id="accordion">
-<% @user.task_reports.each do |report| %>
+<% @user.task_reports.order(created_at: :desc).each do |report| %>
   <div class="panel panel-default">
     <div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse-<%= report.id %>"><i class="fa fa-file-text marg-right"></i><%= report.task.title %></a> <small>started at <%= report.created_at %></small></h4></div>
 

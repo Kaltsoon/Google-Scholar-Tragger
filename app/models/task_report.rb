@@ -5,6 +5,10 @@ class TaskReport < ActiveRecord::Base
 
 	validates :task_id, uniqueness: { scope: :user_id }
 
+	def minimal_report
+		return report.gsub(/\n/, ';');
+	end
+
 	def duration
 		if completed.nil?
 			return "[Not completed]"

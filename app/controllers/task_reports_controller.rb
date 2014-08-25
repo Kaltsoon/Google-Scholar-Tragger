@@ -12,7 +12,7 @@ class TaskReportsController < ApplicationController
 	def update
 		report = TaskReport.find(params[:task_report_id])
 
-		report.update_attributes(report: params[:report], completed: params[:completed])
+		report.update_attributes(report: params[:report], completed: params[:completed], item_height: params[:item_height], form_height: params[:form_height], items:  params[:items])
 	end
 
 	def destroy

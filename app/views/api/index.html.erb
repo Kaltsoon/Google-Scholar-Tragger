@@ -65,16 +65,10 @@
 					<div class="form-group">
 						<button type="submit" ng-click="search()" class="btn btn-primary"><i class="fa fa-search"></i> Search</button>
 						<button type="button" ng-click="done()" class="btn btn-success"><i class="fa fa-check"></i> Done</button>
-						<div class="btn-group">
-						  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						    <i class="fa fa-arrows-v"></i>
-						  </button>
-						  <ul class="dropdown-menu" role="menu" style="min-width: 0px;">
-						    <li style="padding: 10px">
-						    	<div id="slider-vertical" style="height:150px;"></div>
-						    </li>
-						  </ul>
-						</div>
+						<button type="button" class="btn btn-default dropdown-toggle" ng-click="toggle_result_display_count()">
+						   <i class="fa fa-arrows-v"></i> Display count
+						</button>
+						<input id="result-display-count" type="text" class="form-control" style="width: 120px; display: none" ng-model="results_on_screen">
 					</div>
 				</form>
 			</div>

@@ -3,13 +3,18 @@ var searchApp = angular.module("SearchApp", []);
 searchApp.service("UI", function(){
 	return {
 		fit_results_on_screen: function(count){
-			var screen_height = $(window).height();
-			var height_to_share = screen_height - $("#search-form").outerHeight(true) - ( 20 + 15 * count + 10); // body margin + 10 * margin + 10
-			var height_for_each = height_to_share / count;
+			var height_for_each = this.result_item_height(count);
 
 			$("#search-results-list .media").each(function(index){
 				$(this).css("height", height_for_each + "px");
 			});
+		},
+
+		result_item_height: function(count){
+			var screen_height = $(window).height();
+			var height_to_share = screen_height - $("#search-form").outerHeight(true) - ( 20 + 15 * count + 10); // Body padding + 15 * item + 10
+
+			return height_to_share / count;
 		},
 
 		set_iframe_dimensions: function(){
@@ -73,6 +78,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	$scope.tasks = [];
 	$scope.chosen_task = null;
 	$scope.task_report = null;
+	$scope.results_on_screen = 7;
 
 	var api = "arxiv"
 	var task_id = null;
@@ -81,8 +87,6 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	var current_task_report_id = null;
 	var feedback_target = null;
 	var active_click = null;
-	var results_on_screen = 7;
-
 	var scroll_buffer = [];
 
 	$scope.choose_task = function(){
@@ -163,12 +167,18 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		active_click = null;
 	}
 
+	$scope.toggle_result_display_count = function(){
+		$("#result-display-count").fadeToggle(500);
+	}
+
 	$scope.give_feedback = function(){
 		send_feedback();
 	}
 
 	$scope.send_task_report = function(){
-		$.post("/send_task_report", { task_report_id: current_task_report_id, report: $scope.task_report, completed: new Date() })
+		var form_height = 66 + 20;
+
+		$.post("/send_task_report", { task_report_id: current_task_report_id, report: $scope.task_report, completed: new Date(), item_height: UI.result_item_height($scope.results_on_screen), form_height: form_height, items: $scope.results_on_screen })
 		.always(function(){
 			reset_variables();
 
@@ -236,7 +246,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		.always(function(){
 			$scope.loading = false;
 			$scope.$apply();
-			UI.fit_results_on_screen(results_on_screen);
+			UI.fit_results_on_screen($scope.results_on_screen);
 		});
 	}
 
@@ -308,21 +318,11 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 		}
 	});
 
+	$scope.$watch('results_on_screen', function(new_val, old_val){
+		UI.fit_results_on_screen(new_val);
+	});
+
 	$(window).scroll(function(){
 		register_scroll();
 	})
-
-    $(document).ready(function(){
-    	 $( "#slider-vertical" ).slider({
-			orientation: "vertical",
-			range: "min",
-			min: 3,
-			max: 10,
-			value: 7,
-			slide: function(event, slider){
-				results_on_screen = slider.value;
-				UI.fit_results_on_screen(results_on_screen);
-			}
-		});
-    });
 }]);
