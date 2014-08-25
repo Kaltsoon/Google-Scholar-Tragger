@@ -16,7 +16,7 @@
 					<form>
 						<div class="radio" ng-repeat="task in tasks">
 						  	<label>
-						    	<input type="radio" name="task" value="{{task.id}}" checked="$first">
+						    	<input type="radio" name="task" value="{{task.id}}" checked="{{$first}}">
 						    	<strong>{{task.title}}</strong>
 						    	<p class="text-muted">
 						    		{{task.description}}
