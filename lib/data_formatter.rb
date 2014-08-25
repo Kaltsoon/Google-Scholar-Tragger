@@ -20,7 +20,7 @@ module DataFormatter
 				data += "#{iterator},#{cumulation},?,-1,-1,-1\n"
 			else
 				cumulation = cumulation + 1
-				data += "#{iterator},#{cumulation},#{click_in_location.heading},#{click_in_location.click_time.to_formatted_s(:db) || click_in_location.created_at.to_formatted_s(:db)},#{click_in_location.end_time.to_formatted_s(:db)},#{click_in_location.duration}\n"
+				data += "#{iterator},#{cumulation},#{click_in_location.heading},#{format_date(click_in_location.click_time) || format_date(click_in_location.created_at)},#{format_date(click_in_location.end_time)},#{click_in_location.duration}\n"
 			end
 
 			iterator = iterator + 1
@@ -34,7 +34,7 @@ module DataFormatter
 		data = "position,time\n"
 
 		scrolls.each do |scroll|
-			data += "#{scroll.location},#{scroll.scroll_time.to_formatted_s(:db)}\n"
+			data += "#{scroll.location},#{format_date(scroll.scroll_time)}\n"
 		end
 
 		return data
@@ -44,7 +44,7 @@ module DataFormatter
 		t = task.task
 
 		data = "start_time,end_time,duration_seconds,answer,task_description,result_item_height,search_form_height,result_items_count\n"
-		data += "#{task.started.to_formatted_s(:db) || task.created_at.to_formatted_s(:db)},#{task.completed.to_formatted_s(:db)},#{task.duration},#{task.minimal_report},#{t.title} - #{t.task_type},#{task.item_height},#{task.form_height},#{task.items}"
+		data += "#{format_date(task.started) || format_date(task.created_at)},#{format_date(task.completed)},#{task.duration},#{task.minimal_report},#{t.title} - #{t.task_type},#{task.item_height},#{task.form_height},#{task.items}"
 		return data
 	end
 
@@ -53,7 +53,7 @@ module DataFormatter
 	    data = "query,time,satisfaction,specificity\n"
 
 	    queries.each do |query|
-	    	data += "#{query.query_text},#{query.query_time.to_formatted_s(:db) || query.created_at.to_formatted_s(:db)},#{query.satisfaction_str},#{query.broadness_str}\n"
+	    	data += "#{query.query_text},#{format_date(query.query_time) || format_date(query.created_at)},#{query.satisfaction_str},#{query.broadness_str}\n"
 	    end
 
 	    return data
@@ -94,4 +94,9 @@ module DataFormatter
       	return data
 	end
 
+	private
+
+		def format_date(date)
+			date.strftime('%Y-%m-%d %H:%M:%S')
+		end
 end
