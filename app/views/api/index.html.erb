@@ -88,7 +88,7 @@
 				  		<div class="footer-teaser"></div>
 
 					    <div class="media-body">
-					      	<h3 class="media-heading"><a style="cursor: pointer;" ng-click="register_click(result)">{{result.title}}</a></h3>
+					      	<h3 class="media-heading"><a style="cursor: pointer;" ng-click="register_click(result)"><span ng-class="{ 'result-clicked': result.clicked }">{{result.title}}</span></a></h3>
 					      	<p class="text-muted">
 					      		{{result.authors}}
 					      	</p>

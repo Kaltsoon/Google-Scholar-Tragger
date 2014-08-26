@@ -116,3 +116,6 @@ a.btn:hover, .navbar a{
 #task-report-container{
 	display: none;
 }
+.result-clicked{
+	opacity: 0.5 !important;
+}

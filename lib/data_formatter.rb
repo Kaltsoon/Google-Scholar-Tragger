@@ -97,6 +97,6 @@ module DataFormatter
 	private
 
 		def format_date(date)
-			date.strftime('%Y-%m-%d %H:%M:%S')
+			date.strftime('%Y-%m-%d %H:%M:%S') unless date.nil?
 		end
 end

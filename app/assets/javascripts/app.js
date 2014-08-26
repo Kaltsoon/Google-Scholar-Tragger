@@ -88,6 +88,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	var feedback_target = null;
 	var active_click = null;
 	var scroll_buffer = [];
+	var visited_links = {};
 
 	$scope.choose_task = function(){
 		var chosen_id = UI.chosen_task_or($scope.tasks[0]);
@@ -134,6 +135,10 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	}
 
 	$scope.register_click = function(result){
+		visited_links[result.link] = true;
+		result.clicked = true;
+		$scope.$apply();
+
 		if(current_query_id != null){
 			active_click = result;
 			UI.show_iframe(result.link);
@@ -143,6 +148,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 				active_click.id = data.id;
 			});
 		}
+
 	}
 
 	$scope.done = function(){
@@ -180,10 +186,23 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 
 		$.post("/send_task_report", { task_report_id: current_task_report_id, report: $scope.task_report, completed: new Date(), item_height: UI.result_item_height($scope.results_on_screen), form_height: form_height, items: $scope.results_on_screen })
 		.always(function(){
+			var tasks_holder = $scope.tasks;
+			var chosen_task_holder = $scope.chosen_task;
+			
 			reset_variables();
 
+			for(var n = 0; n < tasks_holder.length; n++){
+				if( tasks_holder[n].id == chosen_task_holder.id ){
+					tasks_holder.splice(n, 1);
+					break;
+				}
+			}
+
+			$scope.tasks = tasks_holder;
+			$scope.$apply();
+
 			$("#task-report-container").slideUp(500, function(){
-				fetch_tasks(function(){ $("#task-container").fadeIn(500) });
+				$("#task-container").fadeIn();
 			});
 		});
 	}
@@ -228,6 +247,9 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 			var location_pointer = get_page() * 40 + 1;
 
 			$scope.results = data.results;
+			$scope.results.forEach(function(result){
+				result.clicked = visited_links[result.link] ? true : false;
+			});
 			$scope.error = false;
 
 			if($scope.results.length > 0){
@@ -307,7 +329,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	}
 
 	fetch_tasks(function(){
-		$("#task-container").fadeIn();
+		$("#task-container").fadeIn(500);
 	});
 
 	UI.set_iframe_dimensions();
@@ -324,5 +346,5 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 
 	$(window).scroll(function(){
 		register_scroll();
-	})
+	});
 }]);

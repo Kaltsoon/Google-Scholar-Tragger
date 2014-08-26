@@ -75,12 +75,15 @@ class ScholarQueriesController < ApplicationController
 
   def download_scroll_behavior
     query = ScholarQuery.find(params[:query_id])
-    send_data(query_scroll_behavior_data(query), filename: "#{query.query_text.gsub(/\s+/, "_")}_data.csv")
+    all_queries_in_task = query.task_report.scholar_queries
+    send_data(query_scroll_behavior_data(query), filename: "q_#{all_queries_in_task.index(query) + 1}_scrolls.csv")
   end
 
   def download_clicks_timings
-    query = ScholarQuery.find(params[:query_id]) 
-    send_data(query_clicks_timings_data(query), filename: "#{query.query_text.gsub(/\s+/, "_")}_data.csv")
+    query = ScholarQuery.find(params[:query_id])
+    all_queries_in_task = query.task_report.scholar_queries
+
+    send_data(query_clicks_timings_data(query), filename: "q_#{all_queries_in_task.index(query) + 1}_clicks.csv")
   end
 
   private
