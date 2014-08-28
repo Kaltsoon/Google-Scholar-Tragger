@@ -49,7 +49,7 @@ module DataFormatter
 	end
 
 	def task_report_queries_data(task)
-		queries = task.scholar_queries
+		queries = task.scholar_queries.order(query_time: :desc)
 	    data = "query,time,satisfaction,specificity\n"
 
 	    queries.each do |query|

@@ -84,7 +84,7 @@
           </thead>
 
           <tbody>
-            <% report.scholar_queries.each do |scholar_query| %>
+            <% report.scholar_queries.order(query_time: :desc).each do |scholar_query| %>
               <tr>
                 <td><%= link_to scholar_query.query_text, scholar_query_path(scholar_query) %></td>
                 <td><%= scholar_query.query_time || scholar_query.created_at %></td>
