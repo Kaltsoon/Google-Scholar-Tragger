@@ -5,6 +5,44 @@
     </small>
   </h1>
 </div>
+<h2>Download zip</h2>
+<div class="well">
+  <%= form_tag "/zip/#{@user.id}", method: :post do %>
+    <div class="radio">
+       <label>
+          Clicks no time
+          <%= radio_button_tag "content", "clicks_no_time", true %>
+      </label>
+    </div>
+    <div class="radio">
+       <label>
+          Clicks with time
+         <%= radio_button_tag "content", "clicks_with_time" %>
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        Queries
+         <%= radio_button_tag "content", "queries" %>
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        Scroll
+         <%= radio_button_tag "content", "scroll" %>
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        Summaries
+         <%= radio_button_tag "content", "summaries" %>
+      </label>
+    </div>
+    <%= button_tag type: "submit", class: "btn btn-primary" do %>
+      <i class="fa fa-download"></i> Download zip
+    <% end %>
+  <% end %>
+</div>
 <h2><%= pluralize(@user.task_reports.count, "task report") %></h2>
 <div class="panel-group" id="accordion">
 <% @user.task_reports.order(started: :desc).each do |report| %>

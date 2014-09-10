@@ -8,7 +8,8 @@ GoogleScholarTragger::Application.routes.draw do
 
   resources :scholar_queries, only: [:create, :destroy, :show, :index]
 
-
+  post "/zip/:user_id", to: "users#download_zip"
+ 
   get "/login", to: "users#admin_login"
   post "/download_user_data", to: "users#download_data"
   get "/", to: "users#admin_login"

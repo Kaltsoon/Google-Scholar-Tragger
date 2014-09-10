@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  include DataFormatter
+
   before_action :set_user, only: [:edit, :update, :destroy]
   before_action :check_admin, only: [:show, :destroy, :new, :create, :index, :download_data]
   # GET /users
@@ -61,6 +63,22 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { head :no_content }
+    end
+  end
+
+  def download_zip
+    user = User.find(params[:user_id])
+
+    if(params[:content] == 'clicks_no_time')
+      clicks_no_time_zip(user)
+    elsif(params[:content] == 'clicks_with_time')
+      clicks_with_time_zip(user)
+    elsif(params[:content] == 'queries')
+      queries_zip(user)
+    elsif(params[:content] == 'scroll')
+      scroll_zip(user)
+    else
+      summaries_zip(user)
     end
   end
 

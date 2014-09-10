@@ -89,6 +89,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	var active_click = null;
 	var scroll_buffer = [];
 	var visited_links = {};
+	var done_time = new Date();
 
 	$scope.choose_task = function(){
 		var chosen_id = UI.chosen_task_or($scope.tasks[0]);
@@ -152,6 +153,8 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	}
 
 	$scope.done = function(){
+		done_time = new Date();
+
 		if(current_query_id != null){
 			send_scroll_data();
 
@@ -184,7 +187,7 @@ searchApp.controller("SearchController", ["$scope", "UI", function($scope, UI){
 	$scope.send_task_report = function(){
 		var form_height = 66 + 20;
 
-		$.post("/send_task_report", { task_report_id: current_task_report_id, report: $scope.task_report, completed: new Date(), item_height: UI.result_item_height($scope.results_on_screen), form_height: form_height, items: $scope.results_on_screen })
+		$.post("/send_task_report", { task_report_id: current_task_report_id, report: $scope.task_report, completed: done_time, item_height: UI.result_item_height($scope.results_on_screen), form_height: form_height, items: $scope.results_on_screen })
 		.always(function(){
 			var tasks_holder = $scope.tasks;
 			var chosen_task_holder = $scope.chosen_task;

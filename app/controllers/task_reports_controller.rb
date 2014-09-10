@@ -28,13 +28,15 @@ class TaskReportsController < ApplicationController
  		all_reports = task_report.user.task_reports.order(started: :desc)
  		filename = "#{task_report.task.description.gsub(/\s+/, "_")}_#{task_report.id}_data.csv"
 
- 		if(params[:include] == "queries")
- 			send_data(task_report_queries_data(task_report), filename: filename)
- 		elsif(params[:include] == "clicks")
- 			send_data(task_report_clicks_data(task_report), filename: 'clicks.csv')
- 		else
- 			send_data(task_report_summary(task_report), filename: "#{task_report.user.name}_#{task_report.task.task_code || '?'}_#{all_reports.index(task_report) + 1}.csv")
- 		end
+ 		user_zip()
+
+ 		#if(params[:include] == "queries")
+ 		#	send_data(task_report_queries_data(task_report), filename: filename)
+ 		#elsif(params[:include] == "clicks")
+ 		#	send_data(task_report_clicks_data(task_report), filename: 'clicks.csv')
+ 		#else
+ 		#	send_data(task_report_summary(task_report), filename: "#{task_report.user.name}_#{task_report.task.task_code || '?'}_#{all_reports.index(task_report) + 1}.csv")
+ 		#end
  	end
 
 end
