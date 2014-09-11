@@ -100,16 +100,19 @@ module DataFormatter
 
 	def summaries_zip(user)
 		summaries_zip = Tempfile.new('foo')
+		files = []
 
 		user.task_reports.each do |task_report|
 			summaries_file = Tempfile.new('foo')
 			summaries_file.write(task_report_summary(task_report))
 			summaries_file.rewind
-			summaries_file.close
+			files.push({ name: "P#{user.id}_#{task_report.task.task_code}_#{task_report.task.id}_summary.csv", file: summaries_file })
+		end
 
-			Zip::ZipOutputStream.open(summaries_zip.path) do |zos|
-			   	zos.put_next_entry("P#{user.id}_#{task_report.task.task_code}_summary.csv")
-			   	zos.print IO.read(summaries_file.path)
+		Zip::ZipOutputStream.open(summaries_zip.path) do |zos|
+			files.each do |file|
+			   	zos.put_next_entry(file[:name])
+			   	zos.print IO.read(file[:file].path)
 			end
 		end
 
@@ -120,24 +123,27 @@ module DataFormatter
 
 	def scroll_zip(user)
 		scroll_zip = Tempfile.new('foo')
+		files = []
 		iterator = 1
 
 		user.task_reports.each do |task_report|
-			task_report.scholar_queries.order(query_time: :desc).each do |query|
+			task_report.scholar_queries.order(:query_time).each do |query|
 				scroll_file = Tempfile.new('foo')
 				scroll_file.write(query_scroll_behavior_data(query))
 				scroll_file.rewind
-				scroll_file.close
-
-				Zip::ZipOutputStream.open(scroll_zip.path) do |zos|
-				   	zos.put_next_entry("P#{user.id}_#{task_report.task.task_code}_q#{iterator}_scrolls.csv")
-				   	zos.print IO.read(scroll_file.path)
-				end
+				files.push({ name: "P#{user.id}_#{task_report.task.task_code}_#{task_report.task.id}_q#{iterator}_scrolls.csv", file: scroll_file })
 
 				iterator = iterator + 1
 			end
 
 			iterator = 1
+		end
+
+		Zip::ZipOutputStream.open(scroll_zip.path) do |zos|
+			files.each do |file|
+			   	zos.put_next_entry(file[:name])
+			   	zos.print IO.read(file[:file].path)
+			end
 		end
 
 		send_file scroll_zip.path, :type => 'application/zip', :disposition => 'attachment', :filename => "scroll.zip"
@@ -147,16 +153,21 @@ module DataFormatter
 
 	def queries_zip(user)
 		query_zip = Tempfile.new('foo')
+		files = []
 
 		user.task_reports.each do |task_report|
 			task_file = Tempfile.new('foo')
 			task_file.write(task_report_queries_data(task_report))
 			task_file.rewind
-			task_file.close
 
-			Zip::ZipOutputStream.open(query_zip.path) do |zos|
-			   	zos.put_next_entry("P#{user.id}_#{task_report.task.task_code}_queries.csv")
-			   	zos.print IO.read(task_file.path)
+			files.push({ name: "P#{user.id}_#{task_report.task.task_code}_#{task_report.task.id}_queries.csv", file: task_file })
+		end
+
+
+		Zip::ZipOutputStream.open(query_zip.path) do |zos|
+			files.each do |file|
+			   	zos.put_next_entry(file[:name])
+			   	zos.print IO.read(file[:file].path)
 			end
 		end
 
@@ -167,24 +178,28 @@ module DataFormatter
 
 	def clicks_with_time_zip(user)
 		click_zip = Tempfile.new('foo')
+		files = []
 		iterator = 1
 
 		user.task_reports.each do |task_report|
-			task_report.scholar_queries.order(query_time: :desc).each do |query|
+			task_report.scholar_queries.order(:query_time).each do |query|
 				query_file = Tempfile.new('foo')
 				query_file.write(query_clicks_timings_data(query))
 				query_file.rewind
-				query_file.close
 
-				Zip::ZipOutputStream.open(click_zip.path) do |zos|
-				   	zos.put_next_entry("P#{user.id}_#{task_report.task.task_code}_q#{iterator}_clicks.csv")
-				   	zos.print IO.read(query_file.path)
-				end
+				files.push({ name: "P#{user.id}_#{task_report.task.task_code}_#{task_report.task.id}_q#{iterator}_clicks.csv", file: query_file })
 
 				iterator = iterator + 1
 			end
 
 			iterator = 1
+		end
+
+		Zip::ZipOutputStream.open(click_zip.path) do |zos|
+			files.each do |file|
+			   	zos.put_next_entry(file[:name])
+			   	zos.print IO.read(file[:file].path)
+			end
 		end
 
 		send_file click_zip.path, :type => 'application/zip', :disposition => 'attachment', :filename => "clicks_with_time.zip"
@@ -194,16 +209,19 @@ module DataFormatter
 
 	def clicks_no_time_zip(user)
 		click_zip = Tempfile.new('foo')
+		files = [];
 
 		user.task_reports.each do |task_report|
 			task_file = Tempfile.new('foo')
 			task_file.write(task_report_clicks_data(task_report))
 			task_file.rewind
-			task_file.close
+			files.push({ name: "P#{user.id}_#{task_report.task.task_code}_#{task_report.task.id}_clicks_no_time.csv", file: task_file })
+		end
 
-			Zip::ZipOutputStream.open(click_zip.path) do |zos|
-			   	zos.put_next_entry("P#{user.id}_#{task_report.task.task_code}_clicks_no_time.csv")
-			   	zos.print IO.read(task_file.path)
+		Zip::ZipOutputStream.open(click_zip.path) do |zos|
+			files.each do |file|
+				zos.put_next_entry(file[:name])
+		   		zos.print IO.read(file[:file].path)
 			end
 		end
 
